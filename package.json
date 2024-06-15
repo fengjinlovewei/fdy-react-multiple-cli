@@ -54,7 +54,6 @@
     "purgecss-webpack-plugin": "^6.0.0",
     "react-dev-utils": "^12.0.1",
     "react-refresh": "^0.14.2",
-    "serve": "^14.2.3",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^4.0.0",
     "style-resources-loader": "^1.5.0",
