@@ -1,0 +1,86 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 编译成哪个版本的 es
+    "module": "ESNext", // 指定生成哪个模块系统代码
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 编译过程中需要引入的库文件的列表
+    "allowJs": false, // 允许编译 js 文件
+    "skipLibCheck": false, // 是否忽略所有的声明文件（ *.d.ts）的类型检查
+    "esModuleInterop": false, // 支持 CommonJS 和 ES 模块之间的互操作性
+    "allowSyntheticDefaultImports": true, // 允许从没有设置默认导出的模块中默认导入
+    "strict": true, // 启用所有严格类型检查选项
+    "forceConsistentCasingInFileNames": true, // 禁止对同一个文件的不一致的引用
+
+    "moduleResolution": "Node", // 指定模块解析策略
+    "resolveJsonModule": true, // 支持导入 json 模块
+    "isolatedModules": true, // 确保每个文件可以安全地独立编译。
+    "experimentalDecorators": true, // 启用实验性的ES装饰器
+    "noEmit": true, // 只想使用tsc的类型检查作为函数时（当其他工具（例如Babel实际编译）时）使用它
+    // react18的tsx文件不需要在文件顶部引入 import React from 'react';
+    // 所以此处的属性可以写 react-jsx
+    // 如果写了react，那么tsx文件顶部不写 import React from 'react'会报错
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      // 路径映射，与 baseUrl 关联，这个需要跟webpack一一对应
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["./src"]
+}
+
+
+/*
+compilerOptions: 该对象包含可以用来配置编译器行为的各种选项。
+
+target: 设置目标JavaScript语言版本。例如，"ES5", "ES6", "ES2015", "ES2020"等。
+module: 指定生成的代码模块化的方式，如 "CommonJS", "AMD", "System", "UMD", "ES6", "ES2015", "ES2020"等。
+lib: 指定编译过程中需要包含的库文件的列表，如 ["DOM", "ES5", "ScriptHost", "WebWorker"]。
+allowJs: 允许编译器编译 JavaScript 文件。
+checkJs: 允许在 .js 文件中报告错误。
+jsx: 在.tsx文件中指定JSX代码的生成，常用值有 "React", "Preserve"。
+declaration: 生成相应的.d.ts声明文件。
+sourceMap: 生成相应的.map文件，用于调试。
+outFile: 将所有全局作用域的文件合并到一个输出文件中。
+outDir: 指定输出文件夹。
+strict: 启用所有严格类型检查选项。
+noImplicitAny: 禁止隐含的any类型。
+moduleResolution: 模块解析策略，"Node" 或 "Classic"。
+baseUrl: 用于解析非相对模块名称的基目录。
+paths: 一个映射列表，与 baseUrl 一起工作以进行模块重定向。
+esModuleInterop: 改善了对非ES模块的默认导出的兼容。
+resolveJsonModule: 允许导入.json文件。
+noEmit: 不生成输出文件。
+noEmitOnError: 发生错误时不生成输出文件。
+skipLibCheck: 跳过对.d.ts文件的类型检查；对于包含大量声明文件的大型项目，这可以减少编译时间。
+forceConsistentCasingInFileNames: 确保文件名的大小写一致，以避免在大小写不敏感的文件系统中产生问题。
+strictNullChecks: 当设置为true时，在所有可能为null或undefined的地方显式检查。
+strictFunctionTypes: 更严格地检查函数类型的赋值。
+strictBindCallApply: 对bind，call和apply方法使用更严格的类型。
+strictPropertyInitialization: 确保类的每个实例属性都显式初始化。
+noImplicitThis: 当this表达式的值为any类型的时候，生成一个错误。
+alwaysStrict: 在代码中每个文件都应用JavaScript的严格模式。
+noUnusedLocals: 报告未使用的局部变量。
+noUnusedParameters: 报告未使用的函数参数。
+noImplicitReturns: 在函数中，如果不是所有路径都有返回值，将报告错误。
+noFallthroughCasesInSwitch: 防止switch语句贯穿（未通过break中断）。
+inlineSourceMap: 生成内联的.map源映射文件，而不是单独的文件。
+inlineSources: 将代码与sourcemap生成在同一文件中，仅当你设置了inlineSourceMap或sourceMap选项时才有效。
+emitDecoratorMetadata: 当使用装饰器时，会为相关的设计类型添加元数据信息。
+experimentalDecorators: 启用实验性的装饰器支持。
+removeComments: 从输出文件中移除注释。
+isolatedModules: 确保每个文件可以安全地独立编译。
+downlevelIteration: 当目标为低于ES6环境时，提供对迭代器的全面支持。
+preserveConstEnums: 即使使用了const enum， 枚举也会被保留在生成的代码中。
+suppressImplicitAnyIndexErrors: 当索引对象时忽略noImplicitAny的错误。
+include: 这个属性定义了编译器应该包含在编译过程中的文件或文件夹。
+exclude: 这个属性定义了编译器应该排除在编译过程之外的文件或文件夹。
+extends: 允许配置继承自另一个配置文件。
+files: 如果你想显式设置一组文件（而不是整个目录），可以使用此属性。
+references: 用于配置项目间的依赖
+
+作者：ObjectX不知名程序员
+链接：https://juejin.cn/post/7353504333999505408
+来源：稀土掘金
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+*/

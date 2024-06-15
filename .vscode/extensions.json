@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint", // eslint
+    "esbenp.prettier-vscode", // prettier
+    "wix.vscode-import-cost", // 显示引入的第三方包大小
+    "eamodio.gitlens", // git时间线
+    "formulahendry.auto-rename-tag", // 自动补全标签
+    "ritwickdey.LiveServer" // 直接开启服务
+  ]
+}

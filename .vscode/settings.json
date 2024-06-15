@@ -1,0 +1,20 @@
+{
+  // eslint主要功能设定规范,捕获不规范的错误等 美化代码或者格式化代码功能交给prettier
+  "eslint.format.enable": false,
+  //打开保存格式化功能(保存代码的时候自动格式化)
+  "editor.formatOnSave": true,
+  //使用 prettier  作为默认格式化程序
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "typescript.tsdk": "./node_modules/typescript/lib", // 代替 vscode 的 ts 语法智能提示
+  // 保存自动修复
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  // 单独为html做一个保存不自动格式化的配置
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "liveServer.settings.port": 5501
+}
