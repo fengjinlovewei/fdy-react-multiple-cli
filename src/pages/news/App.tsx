@@ -33,7 +33,7 @@ function App() {
         </div>
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}
-        <h2>222webpack22225222-react-tswwssddd {isDev()}</h2>
+        <h2>222webpack22225222-react-tswwddddssddd {isDev()}</h2>
         <h3>{DateFormat()}</h3>
         <TestClass></TestClass>
       </div>

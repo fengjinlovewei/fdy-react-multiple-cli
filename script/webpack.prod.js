@@ -139,7 +139,7 @@ module.exports = merge(baseConfig, {
     // 所以这里必须用 contenthash，他不会随js代码改变而改变hash值
     new MiniCssExtractPlugin({
       filename: '[name]/[name].[contenthash:8].css', // 抽离css的输出目录和名称
-      chunkFilename: 'asyncModules/[name].[chunkhash:8].css', // 异步包输出目录
+      chunkFilename: '[name]/[name].[chunkhash:8].css', // 异步包输出目录
     }),
     // 清理无用css
     new PurgeCSSPlugin({

@@ -2,10 +2,11 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
-const { isDev, isServerHttp, appSrc, pages, entry, dll } = require('./common');
-const CopyPlugin = require('copy-webpack-plugin');
+const { isDev, isServerHttp, staticName, appSrc, outputPath, pages, gloablLess, entry, dll } = require('./common');
 
 // 必须自己定义添加 module- 前缀，然后在 standard: [/^adm-/, /^module-/] 配置这个前缀
 // 因为这个css名称是动态生成的，所以 PurgeCSSPlugin 的treeshrking 会把这部分删除掉，
@@ -75,10 +76,9 @@ const getHtmlWebpackPlugin = (name) => {
   });
 };
 
-console.log('pages', pages);
-
 const HtmlTemplates = pages.map((name) => getHtmlWebpackPlugin(name));
 
+// 注入测试主页面
 isServerHttp &&
   HtmlTemplates.push(
     new HtmlWebpackPlugin({
@@ -123,7 +123,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
       {
         loader: 'style-resources-loader',
         options: {
-          patterns: [path.resolve(__dirname, '../src/styles/common.less')],
+          patterns: [...gloablLess],
         },
       },
     );
@@ -136,8 +136,8 @@ module.exports = {
   // 打包文件出口
   output: {
     filename: '[name]/[name].[chunkhash:8].js', // 每个输出js的名称
-    chunkFilename: 'asyncModules/[name].[chunkhash:8].js', // 异步包输出目录
-    path: path.join(__dirname, '../dist'), // 打包结果输出路径
+    chunkFilename: '[name]/[name].[chunkhash:8].js', // 异步包输出目录
+    path: outputPath, // 打包结果输出路径
     clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
     publicPath: '/', // 打包后文件的公共前缀路径
   },
@@ -282,7 +282,7 @@ module.exports = {
         // 第二天前端用一张新图片person.jpeg替换了老的person.jpeg，名字没变，
         // 那么用户就还在读取之前的缓存，新的图片加载不出来，或者很多天以后才加载出来
         generator: {
-          filename: 'static/images/[name].[contenthash:8][ext]', // 文件输出目录和命名
+          filename: `${staticName}/images/[name].[contenthash:8][ext]`, // 文件输出目录和命名
         },
       },
       // 匹配字体
@@ -295,7 +295,7 @@ module.exports = {
           },
         },
         generator: {
-          filename: 'static/fonts/[name][contenthash:8][ext]', // 文件输出目录和命名
+          filename: `${staticName}/fonts/[name][contenthash:8][ext]`, // 文件输出目录和命名
         },
       },
       {
@@ -307,7 +307,7 @@ module.exports = {
           },
         },
         generator: {
-          filename: 'static/media/[name][contenthash:8][ext]', // 文件输出目录和命名
+          filename: `${staticName}/media/[name][contenthash:8][ext]`, // 文件输出目录和命名
         },
       },
     ],
@@ -341,6 +341,8 @@ module.exports = {
         },
       ],
     }),
+
+    new SplitStaticResourcePlugin(),
 
     //  现在不需要这个插件，就可以直接使用了
     // new webpack.DefinePlugin({

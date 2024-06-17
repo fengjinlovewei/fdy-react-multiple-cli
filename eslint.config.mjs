@@ -5,7 +5,7 @@ import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
 
 export default [
   {
-    ignores: ['assets/*', 'dist/*'],
+    ignores: ['assets/*', 'dist/*', 'script/*'],
   },
   // { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
