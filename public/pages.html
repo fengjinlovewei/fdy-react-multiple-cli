@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <% for (var key1 in htmlWebpackPlugin.options.preloadLinks) { %>
         <link <% for (key in htmlWebpackPlugin.options.preloadLinks[key1]) { %> 
@@ -15,6 +14,10 @@
         <link <% for (key in htmlWebpackPlugin.options.prefetchLinks[key1]) { %> 
             <%= key %>="<%= htmlWebpackPlugin.options.prefetchLinks[key1][key] %>"
         <% } %> />
+    <% } %>
+
+    <% for (var key in htmlWebpackPlugin.options.dllPaths) { %>
+        <script defer src="<%= htmlWebpackPlugin.options.dllPaths[key] %>"></script>
     <% } %>
 
 </head>

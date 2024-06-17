@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './App.less';
 
-import TestClass from '@/components/TestClass';
-import { LazyDemo } from '@/lazyComponents/index';
-import Footer from '@/components/Footer';
+import TestClass from './components/TestClass';
+import { LazyDemo } from './lazyComponents/index';
+import Footer from './components/Footer';
 
 import { initTheme } from '@/styles/theme';
 
@@ -29,7 +29,7 @@ function App() {
     <>
       <div className='box'>
         <div className='theme-title' onClick={setDark}>
-          我是主题颜色
+          我是主题颜色哈哈
         </div>
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}

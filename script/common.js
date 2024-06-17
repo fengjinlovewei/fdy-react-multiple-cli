@@ -18,10 +18,24 @@ const entry = pages.reduce((obj, name) => {
   return obj;
 }, {});
 
+// vendors
+const vendorPath = path.resolve(__dirname, '../assets/vendors');
+
+const dll = {
+  path: vendorPath,
+  context: __dirname,
+  core: {
+    name: 'dll_library_core',
+    filename: 'vendor-core.js', // 不能配成变量形式-> dist.js 文件中在使用
+    manifest: path.resolve(vendorPath, './manifest/core-manifest.json'),
+  },
+};
+
 module.exports = {
   isDev,
   isServerHttp,
   appSrc,
   pages,
   entry,
+  dll,
 };

@@ -1,9 +1,9 @@
 import { PureComponent } from 'react';
 import { Button, Space } from 'antd-mobile';
 
-import person from '@/assets/images/person.jpeg';
-import xiaoxiao from '@/assets/images/xiaoxiao.jpeg';
-import w1 from '@/assets/images/w1.webp';
+import person from '../assets/images/person.jpeg';
+import xiaoxiao from '../assets/images/xiaoxiao.jpeg';
+import w1 from '../assets/images/w1.webp';
 
 import { isDev, DateFormat } from '@/utils/index';
 

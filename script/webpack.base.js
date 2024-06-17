@@ -1,10 +1,11 @@
 const path = require('path');
-
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
-const { isDev, isServerHttp, appSrc, pages, entry } = require('./common');
+const { isDev, isServerHttp, appSrc, pages, entry, dll } = require('./common');
+const CopyPlugin = require('copy-webpack-plugin');
 
 // 必须自己定义添加 module- 前缀，然后在 standard: [/^adm-/, /^module-/] 配置这个前缀
 // 因为这个css名称是动态生成的，所以 PurgeCSSPlugin 的treeshrking 会把这部分删除掉，
@@ -15,14 +16,28 @@ const getHtmlWebpackPlugin = (name) => {
   return new HtmlWebpackPlugin({
     title: name,
     template: path.resolve(__dirname, '../public/pages.html'), // 模板取定义root节点的模板
-    filename: `./${name}.html`,
+    favicon: path.resolve(__dirname, '../public/favicon.ico'),
+    filename: `${name}/index.html`, // 注意，这里使用`[name]/index.html` 报错
     chunks: [name],
     inject: true, // 自动注入静态资源
     // https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
     templateParameters: (compilation, assets, assetTags, options) => {
-      const list = Object.keys(compilation.assets).map((item) => path.join(assets.publicPath, item));
+      const chunks = compilation.entrypoints.get(name).chunks;
 
-      const preloadLinks = list
+      // debugger;
+      // console.log(compilation, assets, assetTags, options);
+
+      let fileList = [];
+
+      for (const chunk of chunks) {
+        for (const auxiliaryFile of chunk.auxiliaryFiles) {
+          fileList.push(auxiliaryFile);
+        }
+      }
+
+      fileList = fileList.map((item) => path.join(assets.publicPath, item));
+
+      const preloadLinks = fileList
         .filter((item) => item.indexOf('.preload.') > -1)
         .map((item) => {
           return {
@@ -32,7 +47,7 @@ const getHtmlWebpackPlugin = (name) => {
           };
         });
 
-      const prefetchLinks = list
+      const prefetchLinks = fileList
         .filter((item) => item.indexOf('.prefetch.') > -1)
         .map((item) => {
           return {
@@ -52,12 +67,15 @@ const getHtmlWebpackPlugin = (name) => {
             ...options,
             preloadLinks,
             prefetchLinks,
+            dllPaths: [path.join(assets.publicPath, 'vendors', dll.core.filename)],
           },
         },
       };
     },
   });
 };
+
+console.log('pages', pages);
 
 const HtmlTemplates = pages.map((name) => getHtmlWebpackPlugin(name));
 
@@ -117,7 +135,8 @@ module.exports = {
   entry: entry, // 入口文件
   // 打包文件出口
   output: {
-    filename: 'static/js/[name].[chunkhash:8].js', // 每个输出js的名称
+    filename: '[name]/[name].[chunkhash:8].js', // 每个输出js的名称
+    chunkFilename: 'asyncModules/[name].[chunkhash:8].js', // 异步包输出目录
     path: path.join(__dirname, '../dist'), // 打包结果输出路径
     clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
     publicPath: '/', // 打包后文件的公共前缀路径
@@ -308,6 +327,20 @@ module.exports = {
   },
   plugins: [
     ...HtmlTemplates,
+    new webpack.DllReferencePlugin({
+      manifest: dll.core.manifest,
+      context: dll.context,
+    }),
+    // 复制文件插件
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, '../assets'), // 复制public下文件
+          to: path.resolve(__dirname, '../dist'), // 复制到dist目录中
+          // filter: (source) => !/(index|pages)\.html$/.test(source), // 忽略的文件
+        },
+      ],
+    }),
 
     //  现在不需要这个插件，就可以直接使用了
     // new webpack.DefinePlugin({

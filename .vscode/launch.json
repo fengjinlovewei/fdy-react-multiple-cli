@@ -1,0 +1,16 @@
+{
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "wepack debugger",
+      "skipFiles": ["<node_internals>/**"],
+      "runtimeExecutable": "pnpm", // 不多说
+      "runtimeArgs": ["debugger"] // 执行的脚本指令，即之前在package.json文件里写的scripts,如果是npm，别忘了改成["run", "debug"]
+    }
+  ]
+}
