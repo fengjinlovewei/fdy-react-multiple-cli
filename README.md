@@ -38,10 +38,6 @@ env PACKAGE=news,search npm run dev
 
 还有其他命令也是一样
 
-"build": "npm run tools && cross-env NODE_ENV=production webpack -c script/webpack.prod.js",
-"build:analy": "npm run tools && cross-env NODE_ENV=production webpack -c script/webpack.analy.js",
-"build:open": "npm run tools && cross-env NODE_ENV=production SERVER_HTTP=true webpack -c script/webpack.prod.js && http-server dist -p 3002 -d false --no-dotfiles -o index",
-
 ```bash
 # 打包命令
 npm run build # 可视化
@@ -54,4 +50,43 @@ env PACKAGE=news,search npm run build:analy
 # 打完包，然后本地启动服务看看这是打包后的线上效果
 npm run build:open  # 可视化
 env PACKAGE=news,search npm run build:open
+```
+
+```bash
+# dll 打包，如果dll中的依赖变更，需要用这个命令重新打包
+npm run dll:core
+```
+
+## 3.打包产物
+
+![avatar](./markdown/build.jpg)
+
+注意
+
+1. 红色部分，每一个页面用到的图片会单独打包到这个页面目录
+2. 蓝色部分是dll分离出来的包，打包后会自动注入到dist，并且注入到打包页面中。
+
+## 4.提交代码
+
+```bash
+# 先执行
+git add .
+```
+
+然后执行 git commit，这是可视化的提交
+
+```bash
+# 先执行
+git commit
+```
+
+![avatar](./markdown/commit.jpg)
+
+按照提示操作就可以了
+
+但是如果你的commit符合规范，那么就不会出现这个提示，可以直接提交，但是我更推荐是用可视化，因为可以避免输入错误的麻烦。
+
+```bash
+# 符合规范的提交将不会出现可视化
+git commit -m 'feat: 这是一个新的需求'
 ```
