@@ -1,4 +1,5 @@
 {
+  // # 插件
   "recommendations": [
     "dbaeumer.vscode-eslint", // eslint
     "esbenp.prettier-vscode", // prettier

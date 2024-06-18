@@ -6,7 +6,22 @@ const CopyPlugin = require('copy-webpack-plugin');
 const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
-const { isDev, isServerHttp, staticName, appSrc, outputPath, pages, gloablLess, entry, dll } = require('./common');
+const {
+  isDev,
+  isServerHttp,
+  staticName,
+  appSrc,
+  outputPath,
+  getPackages,
+  gloablLess,
+  getEntry,
+  dll,
+} = require('./common');
+
+const entry = getEntry();
+const packages = getPackages();
+
+console.log('packages', packages);
 
 // 必须自己定义添加 module- 前缀，然后在 standard: [/^adm-/, /^module-/] 配置这个前缀
 // 因为这个css名称是动态生成的，所以 PurgeCSSPlugin 的treeshrking 会把这部分删除掉，
@@ -76,7 +91,7 @@ const getHtmlWebpackPlugin = (name) => {
   });
 };
 
-const HtmlTemplates = pages.map((name) => getHtmlWebpackPlugin(name));
+const HtmlTemplates = packages.map((name) => getHtmlWebpackPlugin(name));
 
 // 注入测试主页面
 isServerHttp &&
@@ -94,7 +109,7 @@ isServerHttp &&
             files: assets,
             options: {
               ...options,
-              pages,
+              packages,
             },
           },
         };
@@ -131,8 +146,10 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
+console.log('entry', entry);
+
 module.exports = {
-  entry: entry, // 入口文件
+  entry, // 入口文件
   // 打包文件出口
   output: {
     filename: '[name]/[name].[chunkhash:8].js', // 每个输出js的名称

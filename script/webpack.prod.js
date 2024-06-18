@@ -11,7 +11,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
-// const { isDev, isServerHttp, appSrc, pages, entry } = require('./common');
+// const { isDev, isServerHttp, appSrc, pages } = require('./common');
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 console.log('process.env.SERVER_HTTP', process.env.SERVER_HTTP);

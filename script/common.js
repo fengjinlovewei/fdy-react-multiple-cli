@@ -19,12 +19,6 @@ const pages = fs.readdirSync(`${appSrc}/pages`);
 // 所有less文件都会引入的less文件
 const gloablLess = [path.resolve(__dirname, '../src/styles/common.less')];
 
-// 入口文件的配置
-const entry = pages.reduce((obj, name) => {
-  obj[name] = `${appSrc}/pages/${name}/index.tsx`;
-  return obj;
-}, {});
-
 // vendors
 const vendorPath = path.resolve(__dirname, '../assets/vendors');
 
@@ -38,6 +32,21 @@ const dll = {
   },
 };
 
+function getPackages() {
+  const packageReadonly = require('./package-readonly.js');
+  return packageReadonly.packages || [];
+}
+
+// 入口文件的配置
+function getEntry() {
+  const packages = getPackages();
+  // 入口文件的配置
+  return packages.reduce((obj, name) => {
+    obj[name] = `${appSrc}/pages/${name}/index.tsx`;
+    return obj;
+  }, {});
+}
+
 module.exports = {
   isDev,
   isServerHttp,
@@ -46,6 +55,7 @@ module.exports = {
   outputPath,
   pages,
   gloablLess,
-  entry,
   dll,
+  getPackages,
+  getEntry,
 };

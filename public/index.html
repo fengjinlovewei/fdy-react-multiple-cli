@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>哈哈</title>
+    <title>packages</title>
     <style>
       * {
         margin: 0;
@@ -80,9 +80,9 @@
   </head>
   <body>
     <div class="box">
-      <% for (var page in htmlWebpackPlugin.options.pages) { %>
-      <a class="button-29" href="<%= htmlWebpackPlugin.options.pages[page] %>/index.html"
-        ><%= htmlWebpackPlugin.options.pages[page] %></a
+      <% for (var page in htmlWebpackPlugin.options.packages) { %>
+      <a class="button-29" href="<%= htmlWebpackPlugin.options.packages[page] %>/index.html"
+        ><%= htmlWebpackPlugin.options.packages[page] %></a
       >
       <% } %>
     </div>
