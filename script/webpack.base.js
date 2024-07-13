@@ -1,121 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const { HtmlTemplates } = require('./getHtmlTemplates');
 
-const {
-  isDev,
-  isServerHttp,
-  staticName,
-  appSrc,
-  outputPath,
-  getPackages,
-  gloablLess,
-  getEntry,
-  dll,
-} = require('./common');
+const { isDev, staticName, appSrc, outputPath, gloablLess, getEntry, dll } = require('./common');
 
 const entry = getEntry();
-const packages = getPackages();
-
-console.log('packages', packages);
 
 // 必须自己定义添加 module- 前缀，然后在 standard: [/^adm-/, /^module-/] 配置这个前缀
 // 因为这个css名称是动态生成的，所以 PurgeCSSPlugin 的treeshrking 会把这部分删除掉，
 // 所以必须添加自定义前缀过滤一下
 const myGetCSSModuleLocalIdent = (...arg) => 'module-' + getCSSModuleLocalIdent(...arg);
-
-const getHtmlWebpackPlugin = (name) => {
-  return new HtmlWebpackPlugin({
-    title: name,
-    template: path.resolve(__dirname, '../public/pages.html'), // 模板取定义root节点的模板
-    favicon: path.resolve(__dirname, '../public/favicon.ico'),
-    filename: `${name}/index.html`, // 注意，这里使用`[name]/index.html` 报错
-    chunks: [name],
-    inject: true, // 自动注入静态资源
-    // https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
-    templateParameters: (compilation, assets, assetTags, options) => {
-      const chunks = compilation.entrypoints.get(name).chunks;
-
-      // debugger;
-      // console.log(compilation, assets, assetTags, options);
-
-      let fileList = [];
-
-      for (const chunk of chunks) {
-        for (const auxiliaryFile of chunk.auxiliaryFiles) {
-          fileList.push(auxiliaryFile);
-        }
-      }
-
-      fileList = fileList.map((item) => path.join(assets.publicPath, item));
-
-      const preloadLinks = fileList
-        .filter((item) => item.indexOf('.preload.') > -1)
-        .map((item) => {
-          return {
-            rel: 'preload',
-            as: 'image',
-            href: item,
-          };
-        });
-
-      const prefetchLinks = fileList
-        .filter((item) => item.indexOf('.prefetch.') > -1)
-        .map((item) => {
-          return {
-            rel: 'prefetch',
-            as: 'image',
-            href: item,
-          };
-        });
-
-      return {
-        compilation,
-        webpackConfig: compilation.options,
-        htmlWebpackPlugin: {
-          tags: assetTags,
-          files: assets,
-          options: {
-            ...options,
-            preloadLinks,
-            prefetchLinks,
-            dllPaths: [path.join(assets.publicPath, 'vendors', dll.core.filename)],
-          },
-        },
-      };
-    },
-  });
-};
-
-const HtmlTemplates = packages.map((name) => getHtmlWebpackPlugin(name));
-
-// 注入测试主页面
-isServerHttp &&
-  HtmlTemplates.push(
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../public/index.html'), // 模板取定义root节点的模板
-      filename: `./index.html`,
-      inject: false, // 自动注入静态资源
-      templateParameters: (compilation, assets, assetTags, options) => {
-        return {
-          compilation,
-          webpackConfig: compilation.options,
-          htmlWebpackPlugin: {
-            tags: assetTags,
-            files: assets,
-            options: {
-              ...options,
-              packages,
-            },
-          },
-        };
-      },
-    }),
-  );
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -329,6 +228,9 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    runtimeChunk: true, // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
+  },
   /**
    * extensions是webpack的resolve解析配置下的选项，在引入模块时不带文件后缀时，
    * 会来该配置数组里面依次添加后缀查找文件，因为ts不支持引入以 .ts, tsx为后缀的文件，
@@ -344,6 +246,9 @@ module.exports = {
   },
   plugins: [
     ...HtmlTemplates,
+    new ScriptExtHtmlWebpackPlugin({
+      inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
+    }),
     new webpack.DllReferencePlugin({
       manifest: dll.core.manifest,
       context: dll.context,

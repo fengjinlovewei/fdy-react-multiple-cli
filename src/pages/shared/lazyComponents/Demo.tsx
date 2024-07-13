@@ -11,7 +11,7 @@ function LazyDemo() {
   return (
     <>
       <img src={data} alt='' />
-      <h3 className='demo-lazy'>我是懒加载组件组件</h3>;
+      <h3 className='demo-lazy'>我是懒加载组件组件shared</h3>;
     </>
   );
 }

@@ -39,7 +39,7 @@ module.exports = merge(baseConfig, {
     // 所以这里必须用 contenthash，他不会随js代码改变而改变hash值
     new MiniCssExtractPlugin({
       filename: '[name]/[name].[contenthash:8].css', // 抽离css的输出目录和名称
-      chunkFilename: '[name]/[name].[chunkhash:8].css', // 异步包输出目录
+      chunkFilename: '[name]/[name].[contenthash:8].css', // 异步包输出目录
     }),
     // 清理无用css
     new PurgeCSSPlugin({
@@ -55,7 +55,7 @@ module.exports = merge(baseConfig, {
       },
     }),
     new CompressionPlugin({
-      test: /.(js|css)$/, // 只生成css,js压缩文件
+      test: /^(?!runtime\~)(.*)\.(js|css)$/, // 只生成css,js压缩文件,但是runtime文件要排除掉
       filename: '[path][base].gz', // 文件命名
       algorithm: 'gzip', // 压缩格式,默认是gzip
       threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k

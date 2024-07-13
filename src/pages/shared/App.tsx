@@ -2,7 +2,8 @@ import { useState } from 'react';
 import './App.less';
 
 import TestClass from './components/TestClass';
-import { LazyDemo } from './lazyComponents/index';
+import { LazyDemo } from '@/pages/shared/lazyComponents';
+import { LazyDemo as LazyDemo2 } from '@/lazyComponents/';
 import Footer from './components/Footer';
 
 import { initTheme } from '@/styles/theme';
@@ -33,6 +34,7 @@ function App() {
         </div>
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}
+        {lazyShow && <LazyDemo2></LazyDemo2>}
         <h2>222webpack22225222-react-tswwssddd {isDev()}</h2>
         <h3>{DateFormat()}</h3>
         <TestClass></TestClass>

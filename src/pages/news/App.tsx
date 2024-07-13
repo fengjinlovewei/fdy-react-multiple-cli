@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.less';
 
 import TestClass from '@/components/TestClass';
-import { LazyDemo } from '@/lazyComponents/index';
+import { LazyDemo } from '@/pages/news/lazyComponents';
 import Footer from '@/components/Footer';
 
 import { initTheme } from '@/styles/theme';
