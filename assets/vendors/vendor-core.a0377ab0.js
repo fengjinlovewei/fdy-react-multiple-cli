@@ -1,4 +1,4 @@
-/*! For license information please see vendor-core.js.LICENSE.txt */
+/*! For license information please see vendor-core.a0377ab0.js.LICENSE.txt */
 var dll_library_core;
 !(function () {
   var e = {

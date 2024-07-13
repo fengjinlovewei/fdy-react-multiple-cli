@@ -2,9 +2,14 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { isServerHttp, getPackages, dll } = require('./common');
+const { isServerHttp, getPackages, vendorPath } = require('./common');
+const { getDirFiles } = require('./utils');
 
 const packages = getPackages();
+
+const files = getDirFiles(vendorPath);
+
+const fileName = files.filter((item) => /\.js$/.test(item))[0];
 
 console.log('packages', packages);
 
@@ -63,7 +68,7 @@ const getHtmlWebpackPlugin = (name) => {
             ...options,
             preloadLinks,
             prefetchLinks,
-            dllPaths: [path.join(assets.publicPath, 'vendors', dll.core.filename)],
+            dllPaths: [path.join(assets.publicPath, 'vendors', fileName)],
           },
         },
       };

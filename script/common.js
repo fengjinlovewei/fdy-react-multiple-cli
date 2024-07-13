@@ -27,8 +27,8 @@ const dll = {
   context: __dirname,
   core: {
     name: 'dll_library_core',
-    filename: 'vendor-core.js', // 不能配成变量形式-> dist.js 文件中在使用
-    manifest: path.resolve(vendorPath, './manifest/core-manifest.json'),
+    filename: 'vendor-core.[chunkhash:8].js', // 不能配成变量形式-> dist.js 文件中在使用
+    manifest: path.resolve(vendorPath, './manifest/vendor-core-manifest.json'),
   },
 };
 
@@ -61,4 +61,5 @@ module.exports = {
   dll,
   getPackages,
   getEntry,
+  vendorPath,
 };

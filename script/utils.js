@@ -3,8 +3,7 @@ const path = require('path');
 
 function deleteFolder(folderPath) {
   if (!fs.existsSync(folderPath)) {
-    console.log(folderPath + ':路径不存在');
-    return;
+    return console.log(folderPath + ':路径不存在');
   }
 
   if (fs.lstatSync(folderPath).isDirectory()) {
@@ -22,6 +21,21 @@ function deleteFolder(folderPath) {
   }
 }
 
+// 获取文件夹内容
+function getDirFiles(folderPath) {
+  if (!fs.existsSync(folderPath)) {
+    return console.log(folderPath + ':路径不存在');
+  }
+
+  if (fs.lstatSync(folderPath).isDirectory()) {
+    return fs.readdirSync(folderPath);
+  } else {
+    console.log(folderPath + '不是文件夹');
+    return;
+  }
+}
+
 module.exports = {
   deleteFolder,
+  getDirFiles,
 };
