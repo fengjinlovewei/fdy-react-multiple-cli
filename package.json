@@ -1,5 +1,5 @@
 {
-  "name": "fdy-react-single-cli",
+  "name": "fdy-react-multiple-cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -50,6 +50,7 @@
     "glob-all": "^3.3.1",
     "globals": "^15.4.0",
     "html-webpack-plugin": "^5.6.0",
+    "http-server": "^14.1.1",
     "husky": "^9.0.11",
     "inquirer": "^9.2.23",
     "less": "^4.2.0",
@@ -79,7 +80,6 @@
     "amfe-flexible": "^2.2.1",
     "antd-mobile": "^5.36.1",
     "css-vars-ponyfill": "^2.4.9",
-    "http-server": "^14.1.1",
     "lodash": "^4.17.21",
     "postcss-pxtorem": "^6.1.0",
     "prop-types": "^15.8.1",

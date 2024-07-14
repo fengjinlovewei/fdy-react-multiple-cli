@@ -229,7 +229,10 @@ module.exports = {
     ],
   },
   optimization: {
-    runtimeChunk: true, // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
+    // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`,
+    },
   },
   /**
    * extensions是webpack的resolve解析配置下的选项，在引入模块时不带文件后缀时，
