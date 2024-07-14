@@ -89,3 +89,4 @@ local_data/*
 demo.js
 demo.html
 package-readonly.json
+stats.json
