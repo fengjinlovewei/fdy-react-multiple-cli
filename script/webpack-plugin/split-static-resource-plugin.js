@@ -1,7 +1,7 @@
 const path = require('path');
 const { sources } = require('webpack');
 const { isDev, staticName, outputPath } = require('../common');
-const { deleteFolder } = require('../utils');
+const fse = require('fs-extra');
 
 class SplitStaticResourcePlugin {
   constructor(options = {}) {
@@ -59,11 +59,11 @@ class SplitStaticResourcePlugin {
         }
         if (!isDev) {
           // 新的chunk输出文件前，先把对应的文件夹删除掉
-          deleteFolder(path.resolve(outputPath, name));
+          fse.remove(path.resolve(outputPath, name));
         }
       }
 
-      debugger;
+      // debugger;
 
       // 删除 staticName 文件夹内内容
       for (const key in compilation.assets) {

@@ -47,6 +47,7 @@
     "dirname-filename-esm": "^1.1.1",
     "eslint": "8.x",
     "eslint-plugin-react": "^7.34.2",
+    "fs-extra": "^11.2.0",
     "glob": "^10.4.1",
     "glob-all": "^3.3.1",
     "globals": "^15.4.0",
