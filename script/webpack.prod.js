@@ -1,6 +1,6 @@
 const path = require('path');
 
-const baseConfig = require('./webpack.base.js');
+const baseConfig = require('./webpack.config.js');
 const { merge } = require('webpack-merge');
 const globAll = require('glob-all');
 
