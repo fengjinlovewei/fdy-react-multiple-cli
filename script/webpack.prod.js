@@ -38,8 +38,8 @@ module.exports = merge(baseConfig, {
     // 且js文件的 chunkhash 和 css 文件的 chunkhash 是一样的
     // 所以这里必须用 contenthash，他不会随js代码改变而改变hash值
     new MiniCssExtractPlugin({
-      filename: '[name]/[name].[contenthash:8].css', // 抽离css的输出目录和名称
-      chunkFilename: '[name]/[name].[contenthash:8].css', // 异步包输出目录
+      filename: '[name].[contenthash:8].css', // 抽离css的输出目录和名称
+      chunkFilename: '[name].[contenthash:8].css', // 异步包输出目录
     }),
     // 清理无用css
     new PurgeCSSPlugin({
@@ -54,12 +54,12 @@ module.exports = merge(baseConfig, {
         standard: [/^adm-/, /^module-/], // 过滤以adm-开头的类名，这是antd的前缀，哪怕没用到也不删除
       },
     }),
-    new CompressionPlugin({
-      test: /^(?!runtime\~)(.*)\.(js|css)$/, // 只生成css,js压缩文件,但是runtime文件要排除掉
-      filename: '[path][base].gz', // 文件命名
-      algorithm: 'gzip', // 压缩格式,默认是gzip
-      threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
-      minRatio: 0.8, // 压缩率,默认值是 0.8
-    }),
+    // new CompressionPlugin({
+    //   test: /^(?!runtime\~)(.*)\.(js|css)$/, // 只生成css,js压缩文件,但是runtime文件要排除掉
+    //   filename: '[path][base].gz', // 文件命名
+    //   algorithm: 'gzip', // 压缩格式,默认是gzip
+    //   threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
+    //   minRatio: 0.8, // 压缩率,默认值是 0.8
+    // }),
   ],
 });

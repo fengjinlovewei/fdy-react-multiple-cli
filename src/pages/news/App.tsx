@@ -9,6 +9,10 @@ import { initTheme } from '@/styles/theme';
 
 import { isDev, DateFormat } from '@/utils/index';
 
+import uniqueId from 'lodash/uniqueId';
+
+console.log(uniqueId());
+
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 // 哈哈哈

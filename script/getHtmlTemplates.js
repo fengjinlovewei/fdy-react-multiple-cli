@@ -14,18 +14,20 @@ const fileName = files.filter((item) => /\.js$/.test(item))[0];
 console.log('packages', packages);
 
 const getHtmlWebpackPlugin = (name) => {
+  const indexChunkName = `${name}/index`;
+  const modulesChunkName = `${name}/modules`;
   return new HtmlWebpackPlugin({
     title: name,
     template: path.resolve(__dirname, '../public/pages.html'), // 模板取定义root节点的模板
     favicon: path.resolve(__dirname, '../public/favicon.ico'),
     filename: `${name}/index.html`, // 注意，这里使用`[name]/index.html` 报错
-    chunks: [name],
+    chunks: [indexChunkName, modulesChunkName],
     inject: true, // 自动注入静态资源
     // https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
     templateParameters: (compilation, assets, assetTags, options) => {
-      const chunks = compilation.entrypoints.get(name).chunks;
+      const chunks = compilation.entrypoints.get(indexChunkName).chunks;
 
-      // debugger;
+      debugger;
       // console.log(compilation, assets, assetTags, options);
 
       let fileList = [];
@@ -76,11 +78,11 @@ const getHtmlWebpackPlugin = (name) => {
   });
 };
 
-const HtmlTemplates = packages.map((name) => getHtmlWebpackPlugin(name));
+const htmlTemplates = packages.map((name) => getHtmlWebpackPlugin(name));
 
 // 注入测试主页面
 isServerHttp &&
-  HtmlTemplates.push(
+  htmlTemplates.push(
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../public/index.html'), // 模板取定义root节点的模板
       filename: `./index.html`,
@@ -102,6 +104,4 @@ isServerHttp &&
     }),
   );
 
-module.exports = {
-  HtmlTemplates,
-};
+module.exports = htmlTemplates;

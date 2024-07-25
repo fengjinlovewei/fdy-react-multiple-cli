@@ -10,7 +10,7 @@ const Demo = lazy(
   () =>
     // 设置 webpackPreload: true 不起作用
     import(
-      /* webpackChunkName: "lazyDemoNews" */
+      /* webpackChunkName: "lazyDemoNews/index" */
       /* webpackPrefetch: true */
       './Demo'
     ),

@@ -42,7 +42,7 @@ function getEntry() {
   const packages = getPackages();
   // 入口文件的配置
   return packages.reduce((obj, name) => {
-    obj[name] = {
+    obj[`${name}/index`] = {
       import: `${appSrc}/pages/${name}/index.tsx`,
       // runtime: `${name}-runtime`, // 这里的设置和在optimization里设置是一样的，所以就在optimization里统一处理了
     };

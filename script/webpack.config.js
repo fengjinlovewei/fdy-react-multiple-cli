@@ -5,7 +5,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const { HtmlTemplates } = require('./getHtmlTemplates');
+const htmlTemplates = require('./getHtmlTemplates');
+const entryCacheGroups = require('./getEntryCacheGroups');
 
 const { isDev, staticName, appSrc, outputPath, gloablLess, getEntry, dll } = require('./common');
 
@@ -24,7 +25,9 @@ const lessModuleRegex = /\.module\.less$/;
 
 const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
+    //path.resolve(__dirname, './loaders/loader2'),
     isDev ? 'style-loader' : MiniCssExtractPlugin.loader, // 开发环境使用style-looader,打包模式抽离css
+    // path.resolve(__dirname, './loaders/loader1'),
     {
       loader: 'css-loader',
       options: cssOptions,
@@ -51,8 +54,8 @@ module.exports = {
   entry, // 入口文件
   // 打包文件出口
   output: {
-    filename: '[name]/[name].[chunkhash:8].js', // 每个输出js的名称
-    chunkFilename: '[name]/[name].[chunkhash:8].chunk.js', // 异步包输出目录
+    filename: '[name].[chunkhash:8].js', // 每个输出js的名称
+    chunkFilename: '[name].[chunkhash:8].chunk.js', // 异步包输出目录
     path: outputPath, // 打包结果输出路径
     // clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
     publicPath: '/', // 打包后文件的公共前缀路径
@@ -233,6 +236,12 @@ module.exports = {
     runtimeChunk: {
       name: (entrypoint) => `runtime~${entrypoint.name}`,
     },
+    splitChunks: {
+      cacheGroups: {
+        default: false,
+        ...entryCacheGroups,
+      },
+    },
   },
   /**
    * extensions是webpack的resolve解析配置下的选项，在引入模块时不带文件后缀时，
@@ -248,7 +257,7 @@ module.exports = {
     },
   },
   plugins: [
-    ...HtmlTemplates,
+    ...htmlTemplates,
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
     }),
