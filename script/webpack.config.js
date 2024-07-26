@@ -48,7 +48,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
   return loaders;
 };
 
-console.log('entry', entry);
+// console.log('entry', entry);
 
 module.exports = {
   entry, // 入口文件

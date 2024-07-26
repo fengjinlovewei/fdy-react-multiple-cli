@@ -4,7 +4,8 @@ const path = require('path');
 // 这个方法可以被 fse.emptyDirSync 代替了
 function deleteFolder(folderPath) {
   if (!fs.existsSync(folderPath)) {
-    return console.log(folderPath + ':路径不存在');
+    // console.log(folderPath + ':路径不存在');
+    return;
   }
 
   if (fs.lstatSync(folderPath).isDirectory()) {

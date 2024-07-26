@@ -11,7 +11,7 @@ const files = getDirFiles(vendorPath);
 
 const fileName = files.filter((item) => /\.js$/.test(item))[0];
 
-console.log('packages', packages);
+// console.log('packages', packages);
 
 const getHtmlWebpackPlugin = (name) => {
   const indexChunkName = `${name}/index`;
