@@ -1,6 +1,6 @@
 import LazyLoad from 'react-lazyload';
 
-import * as styles from './Footer.module.less';
+import styles from './Footer.module.less';
 
 import './2.css';
 

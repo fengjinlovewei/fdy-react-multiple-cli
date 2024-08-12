@@ -4,6 +4,10 @@ const fs = require('fs');
 // 是否是开发模式
 const isDev = process.env.NODE_ENV === 'development';
 
+const isProd = process.env.NODE_ENV === 'production';
+
+const isTest = process.env.NODE_ENV === 'test';
+
 const isServerHttp = process.env.SERVER_HTTP === 'true';
 
 const staticName = '__@static@__';
@@ -52,6 +56,8 @@ function getEntry() {
 
 module.exports = {
   isDev,
+  isProd,
+  isTest,
   isServerHttp,
   staticName,
   appSrc,

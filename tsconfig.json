@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "target": "ESNext", // 编译成哪个版本的 es
     "module": "ESNext", // 指定生成哪个模块系统代码
     "lib": ["DOM", "DOM.Iterable", "ESNext"], // 编译过程中需要引入的库文件的列表
@@ -25,7 +26,7 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["src"]
 }
 
 

@@ -250,7 +250,7 @@ module.exports = {
    * 修改webpack.base.js，注意把高频出现的文件后缀放在前面
    */
   resolve: {
-    extensions: ['.js', '.tsx', '.ts'],
+    extensions: ['.js', 'jsx', '.ts', '.tsx', '.less', '.json', '.mjs', '.cjs'],
     alias: {
       // 这个配置，在css里也生效
       '@': path.join(__dirname, '../src'),

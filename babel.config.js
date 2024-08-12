@@ -42,7 +42,8 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   plugins: [
-    isDev && require.resolve('react-refresh/babel'), // 如果是开发模式,就启动react热更新插件
+    // 如果是开发模式,就启动react热更新插件
+    isDev && require.resolve('react-refresh/babel'),
     // 这个插件支持class使用修饰符
     ['@babel/plugin-proposal-decorators', { legacy: true }],
   ].filter(Boolean), // 过滤空值

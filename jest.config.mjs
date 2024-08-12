@@ -35,10 +35,8 @@ const config = {
   // Jest输出报告的根目录名字
   coverageDirectory: 'coverage',
 
-  // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  // 用于跳过覆盖率收集的regexp模式字符串数组
+  coveragePathIgnorePatterns: ['/node_modules/'],
 
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "babel",
@@ -80,7 +78,7 @@ const config = {
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
 
-  // An array of directory names to be searched recursively up from the requiring module's location
+  // 要从所需模块的位置递归搜索的目录名数组
   // moduleDirectories: [
   //   "node_modules"
   // ],
@@ -97,7 +95,8 @@ const config = {
   // identity-obj-proxy（需要安装） 能帮我们修改成 { title: 'title' }
   // 这就简单多了。
   moduleNameMapper: {
-    '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+    '^.+\\.module\\.(css|sass|scss|less)$': 'identity-obj-proxy',
+    '@/(.*)': '<rootDir>/src/$1', // 这个是匹配 tsconfig 和 webpack 一样的路径缩写
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -119,7 +118,7 @@ const config = {
   // reporters: undefined,
 
   // 每次测试前自动重置模拟状态
-  // resetMocks: false,
+  resetMocks: true,
 
   // Reset the module registry before running each individual test
   // resetModules: false,
@@ -145,11 +144,14 @@ const config = {
     // 这是一个垫片，它会去补偿 jsdom 不支持的 react 部分，解决兼容的一些问题
     // 使用前必须安装 pnpm i react-app-polyfill -D
     'react-app-polyfill/jsdom',
+    // antd-mobile 老是报错，最后在这里找到了答案
+    // https://github.com/ant-design/ant-design-mobile/pull/5208/files
+    '<rootDir>/src/tests/setup.ts',
   ],
 
   // 模块的路径列表，这些模块运行一些代码，以便在每次测试之前配置或设置测试框架
   // 这一部分就是我们的自定义执行的脚本文件，目前还没用上
-  setupFilesAfterEnv: ['<rootDir>/src/setupTests.js'],
+  setupFilesAfterEnv: ['<rootDir>/src/tests/setupTests.ts'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -194,7 +196,7 @@ const config = {
     '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
     // 当test测试文件中引入css时，会执行 cssTransform.js 的 process，返回的是一个空对象
     // 这样做的目的就是不想让css参与测试，应该是避免错误引入的兜底策略。
-    '^.+\\.css$': '<rootDir>/config/jest/cssTransform.mjs',
+    '^.+\\.(css|less)$': '<rootDir>/config/jest/cssTransform.mjs',
     // 把一些文件，比如png等，直接返回一个名字，不需要真是的文件内容
     '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.mjs',
   },

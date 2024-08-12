@@ -1,5 +1,9 @@
 export const isDev = () => process.env.NODE_ENV === 'development';
 
+export const isProd = () => process.env.NODE_ENV === 'production';
+
+export const isTest = () => process.env.NODE_ENV === 'test';
+
 // 时间序列化
 export function DateFormat({ format = `y年m月d日 H:M:S`, date = new Date() } = {}) {
   const formatNumber = (n: number) => (n >= 10 ? n : '0' + n);
