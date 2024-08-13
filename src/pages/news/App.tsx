@@ -1,19 +1,15 @@
 import { useState } from 'react';
 import './App.less';
 
-import TestClass from '@/components/TestClass';
+import TestClass from '@/pages/news/components/TestClass';
 import { LazyDemo } from '@/pages/news/lazyComponents';
-import Footer from '@/components/Footer';
+import Footer from '@/pages/news/components/Footer';
 
 import { initTheme } from '@/styles/theme';
 
 import { isDev, DateFormat } from '@/utils/index';
 
 import uniqueId from 'lodash/uniqueId';
-
-console.log(uniqueId());
-
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 // 哈哈哈
 function App() {
@@ -38,7 +34,9 @@ function App() {
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}
         <h2>222webpack22225222-react-tswwddddssddd {isDev()}</h2>
-        <h3>{DateFormat()}</h3>
+        <h3>
+          {DateFormat()}-{uniqueId()}
+        </h3>
         <TestClass></TestClass>
       </div>
 

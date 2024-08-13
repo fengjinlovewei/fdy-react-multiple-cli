@@ -1,10 +1,8 @@
 import LazyLoad from 'react-lazyload';
 
-import styles from './Footer.module.less';
+import * as styles from './Footer.module.less';
 
 import './2.css';
-
-console.log('styles', styles);
 
 import f1 from '@/assets/images/f1.prefetch.png';
 import f2 from '@/assets/images/f2.prefetch.png';
