@@ -14,6 +14,7 @@ import uniqueId from 'lodash/uniqueId';
 // 哈哈哈
 function App() {
   const [lazyShow, setLazyShow] = useState(false);
+  const [text, setText] = useState('');
 
   // 点击事件中动态引入css, 设置show为true d
   const onClick = () => {
@@ -30,6 +31,19 @@ function App() {
       <div className='box'>
         <div className='theme-title' onClick={setDark}>
           我是主题颜色哈哈
+        </div>
+        <div>
+          text: <span>{text}</span>
+        </div>
+        <div>
+          <input
+            type='text'
+            placeholder='请输入'
+            value={text}
+            onChange={(e) => {
+              setText(e.target.value);
+            }}
+          />
         </div>
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}
