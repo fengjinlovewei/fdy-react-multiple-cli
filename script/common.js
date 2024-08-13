@@ -24,15 +24,17 @@ const pages = fs.readdirSync(`${appSrc}/pages`);
 const gloablLess = [path.resolve(__dirname, '../src/styles/common.less')];
 
 // vendors
-const vendorPath = path.resolve(__dirname, '../assets/vendors');
+const vendorPath = path.resolve(__dirname, '../assets');
+
+console.log('ddddd', process.env.NODE_ENV);
 
 const dll = {
-  path: vendorPath,
-  context: __dirname,
   core: {
+    path: path.join(vendorPath, 'dll_core', process.env.NODE_ENV || ''),
+    context: __dirname,
     name: 'dll_library_core',
     filename: 'vendor-core.[chunkhash:8].js', // 不能配成变量形式-> dist.js 文件中在使用
-    manifest: path.resolve(vendorPath, './manifest/vendor-core-manifest.json'),
+    manifest: path.resolve(vendorPath, 'dll_core', process.env.NODE_ENV || '', './manifest/vendor-core-manifest.json'),
   },
 };
 

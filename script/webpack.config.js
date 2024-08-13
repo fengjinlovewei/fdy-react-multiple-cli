@@ -266,14 +266,14 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, '../assets'), // 复制public下文件
-          to: path.resolve(__dirname, '../dist'), // 复制到dist目录中
+          from: path.resolve(__dirname, '../assets/dll_core', process.env.NODE_ENV), // 复制public下文件
+          to: path.resolve(__dirname, '../dist/vendors'), // 复制到dist目录中
           // filter: (source) => !/(index|pages)\.html$/.test(source), // 忽略的文件
         },
       ],
     }),
 
-    // new SplitStaticResourcePlugin(),
+    new SplitStaticResourcePlugin(),
 
     //  现在不需要这个插件，就可以直接使用了
     // new webpack.DefinePlugin({

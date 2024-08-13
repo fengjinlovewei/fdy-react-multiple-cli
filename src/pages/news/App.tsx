@@ -32,7 +32,7 @@ function App() {
       <div className='box'>
         <div className='theme-title' onClick={setDark}>
           <span>我是主题颜色哈</span>
-          222-22--33-3333--222
+          222
         </div>
         <TodoList></TodoList>
         <div>

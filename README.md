@@ -90,3 +90,7 @@ git commit
 # 符合规范的提交将不会出现可视化
 git commit -m 'feat: 这是一个新的需求'
 ```
+
+## 5.问题记录
+
+开发模式时，dll的 mode 也必须是 development ，否则热更新不生效

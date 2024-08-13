@@ -2,12 +2,12 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { isServerHttp, getPackages, vendorPath } = require('./common');
+const { isServerHttp, getPackages, dll } = require('./common');
 const { getDirFiles } = require('./utils');
 
 const packages = getPackages();
 
-const files = getDirFiles(vendorPath);
+const files = getDirFiles(dll.core.path);
 
 const fileName = files.filter((item) => /\.js$/.test(item))[0];
 
@@ -27,7 +27,7 @@ const getHtmlWebpackPlugin = (name) => {
     templateParameters: (compilation, assets, assetTags, options) => {
       const chunks = compilation.entrypoints.get(indexChunkName).chunks;
 
-      debugger;
+      // debugger;
       // console.log(compilation, assets, assetTags, options);
 
       let fileList = [];
