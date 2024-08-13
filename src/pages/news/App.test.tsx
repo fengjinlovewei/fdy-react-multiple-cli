@@ -5,7 +5,7 @@ import App from './App';
 describe('App 测试', () => {
   it('测试-1', () => {
     render(<App />);
-    const linkElement = screen.getByText('我是主题颜色哈哈');
+    const linkElement = screen.getByText('我是主题颜色哈');
     // console.log('linkElement', linkElement);
     expect(linkElement).toBeInTheDocument();
   });

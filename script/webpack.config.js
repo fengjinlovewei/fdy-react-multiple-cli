@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+
 const htmlTemplates = require('./getHtmlTemplates');
 const entryCacheGroups = require('./getEntryCacheGroups');
 
@@ -54,8 +54,8 @@ module.exports = {
   entry, // 入口文件
   // 打包文件出口
   output: {
-    filename: '[name].[chunkhash:8].js', // 每个输出js的名称
-    chunkFilename: '[name].[chunkhash:8].chunk.js', // 异步包输出目录
+    filename: isDev ? '[name].js' : '[name].[chunkhash:8].js', // 每个输出js的名称
+    chunkFilename: isDev ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js', // 异步包输出目录
     path: outputPath, // 打包结果输出路径
     // clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
     publicPath: '/', // 打包后文件的公共前缀路径
@@ -233,9 +233,9 @@ module.exports = {
   },
   optimization: {
     // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
-    runtimeChunk: {
-      name: (entrypoint) => `runtime~${entrypoint.name}`,
-    },
+    // runtimeChunk: {
+    //   name: (entrypoint) => `runtime~${entrypoint.name}`,
+    // },
     splitChunks: {
       cacheGroups: {
         default: false,
@@ -258,9 +258,6 @@ module.exports = {
   },
   plugins: [
     ...htmlTemplates,
-    new ScriptExtHtmlWebpackPlugin({
-      inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
-    }),
     new webpack.DllReferencePlugin({
       manifest: dll.core.manifest,
       context: dll.context,
@@ -276,7 +273,7 @@ module.exports = {
       ],
     }),
 
-    new SplitStaticResourcePlugin(),
+    // new SplitStaticResourcePlugin(),
 
     //  现在不需要这个插件，就可以直接使用了
     // new webpack.DefinePlugin({

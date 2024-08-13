@@ -1,5 +1,7 @@
 const { isDev } = require('./script/common');
 
+console.log('isDev', isDev);
+
 module.exports = {
   // ...
   // 预设执行顺序由右往左,所以先处理ts,再处理jsx

@@ -3,6 +3,7 @@ import './App.less';
 
 import TestClass from '@/pages/news/components/TestClass';
 import { LazyDemo } from '@/pages/news/lazyComponents';
+import TodoList from '@/pages/news/components/TodoList';
 import Footer from '@/pages/news/components/Footer';
 
 import { initTheme } from '@/styles/theme';
@@ -30,8 +31,10 @@ function App() {
     <>
       <div className='box'>
         <div className='theme-title' onClick={setDark}>
-          我是主题颜色哈哈
+          <span>我是主题颜色哈</span>
+          222-22--33-3333--222
         </div>
+        <TodoList></TodoList>
         <div>
           text: <span>{text}</span>
         </div>

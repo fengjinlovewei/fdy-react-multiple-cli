@@ -11,6 +11,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+
 module.exports = merge(baseConfig, {
   mode: 'production', // 生产模式,会开启tree-shaking和压缩代码,以及其他优化
   optimization: {
@@ -33,6 +35,9 @@ module.exports = merge(baseConfig, {
     ],
   },
   plugins: [
+    new ScriptExtHtmlWebpackPlugin({
+      inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
+    }),
     // 抽离css插件
     // 如果使用 chunkhash ，引入css的js文件代码改变了，css文件的chunkhash也一起改变，
     // 且js文件的 chunkhash 和 css 文件的 chunkhash 是一样的
