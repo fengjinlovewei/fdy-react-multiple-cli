@@ -1,4 +1,3 @@
-const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -8,14 +7,24 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const htmlTemplates = require('./getHtmlTemplates');
 const entryCacheGroups = require('./getEntryCacheGroups');
 
-const { isDev, staticName, appSrc, outputPath, gloablLess, getEntry, dll } = require('./common');
+const {
+  isDev,
+  staticName,
+  publicPath,
+  appSrc,
+  outputPath,
+  gloablLess,
+  getEntry,
+  dll,
+} = require('./common');
 
 const entry = getEntry();
 
 // 必须自己定义添加 module- 前缀，然后在 standard: [/^adm-/, /^module-/] 配置这个前缀
 // 因为这个css名称是动态生成的，所以 PurgeCSSPlugin 的treeshrking 会把这部分删除掉，
 // 所以必须添加自定义前缀过滤一下
-const myGetCSSModuleLocalIdent = (...arg) => 'module-' + getCSSModuleLocalIdent(...arg);
+const myGetCSSModuleLocalIdent = (...arg) =>
+  'module-' + getCSSModuleLocalIdent(...arg);
 
 // style files regexes
 const cssRegex = /\.css$/;
@@ -58,7 +67,7 @@ module.exports = {
     chunkFilename: isDev ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js', // 异步包输出目录
     path: outputPath, // 打包结果输出路径
     // clean: true, // webpack4需要配置clean-webpack-plugin来删除dist文件,webpack5内置了
-    publicPath: '/', // 打包后文件的公共前缀路径
+    publicPath, // 打包后文件的公共前缀路径
   },
   /**
    * 
@@ -253,7 +262,7 @@ module.exports = {
     extensions: ['.js', 'jsx', '.ts', '.tsx', '.less', '.json', '.mjs', '.cjs'],
     alias: {
       // 这个配置，在css里也生效
-      '@': path.join(__dirname, '../src'),
+      '@': appSrc,
     },
   },
   plugins: [
@@ -266,8 +275,8 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, '../assets/dll_core', process.env.NODE_ENV), // 复制public下文件
-          to: path.resolve(__dirname, '../dist/vendors'), // 复制到dist目录中
+          from: dll.core.path, // 复制public下文件
+          to: dll.core.copyToPath, // 复制到dist目录中
           // filter: (source) => !/(index|pages)\.html$/.test(source), // 忽略的文件
         },
       ],

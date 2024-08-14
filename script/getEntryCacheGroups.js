@@ -1,12 +1,11 @@
-const { getPackages } = require('./common');
+const { getPackages, getChunkNames } = require('./common');
 
 const packages = getPackages();
 
 const entryCacheGroups = {};
 
 function getEntryCacheGroups(name) {
-  const indexChunkName = `${name}/index`;
-  const modulesChunkName = `${name}/modules`;
+  const { indexChunkName, modulesChunkName } = getChunkNames(name);
 
   entryCacheGroups[modulesChunkName] = {
     /**

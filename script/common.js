@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
+const { getDirFiles } = require('./utils');
+
 // 是否是开发模式
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -11,6 +13,8 @@ const isTest = process.env.NODE_ENV === 'test';
 const isServerHttp = process.env.SERVER_HTTP === 'true';
 
 const staticName = '__@static@__';
+
+const publicPath = '/';
 
 // src的入口
 const appSrc = path.resolve(__dirname, '../src');
@@ -26,15 +30,28 @@ const gloablLess = [path.resolve(__dirname, '../src/styles/common.less')];
 // vendors
 const vendorPath = path.resolve(__dirname, '../assets');
 
-console.log('ddddd', process.env.NODE_ENV);
+const dll_core_path = path.join(
+  vendorPath,
+  'dll_core',
+  process.env.NODE_ENV || '',
+);
 
 const dll = {
   core: {
-    path: path.join(vendorPath, 'dll_core', process.env.NODE_ENV || ''),
+    path: dll_core_path,
+    jsPath: path.join(
+      publicPath,
+      'vendors',
+      getDirFiles(dll_core_path).filter((item) => /\.js$/.test(item))[0] || '',
+    ),
+    copyToPath: path.resolve(outputPath, 'vendors'),
     context: __dirname,
     name: 'dll_library_core',
     filename: 'vendor-core.[chunkhash:8].js', // 不能配成变量形式-> dist.js 文件中在使用
-    manifest: path.resolve(vendorPath, 'dll_core', process.env.NODE_ENV || '', './manifest/vendor-core-manifest.json'),
+    manifest: path.resolve(
+      dll_core_path,
+      './manifest/vendor-core-manifest.json',
+    ),
   },
 };
 
@@ -43,14 +60,24 @@ function getPackages() {
   return packageReadonly.packages || [];
 }
 
+function getChunkNames(name) {
+  return {
+    indexChunkName: `${name}/index`,
+    modulesChunkName: `${name}/modules`,
+  };
+}
+
 // 入口文件的配置
 function getEntry() {
   const packages = getPackages();
   // 入口文件的配置
   return packages.reduce((obj, name) => {
-    obj[`${name}/index`] = {
+    const { indexChunkName } = getChunkNames(name);
+    obj[indexChunkName] = {
       import: `${appSrc}/pages/${name}/index.tsx`,
-      // runtime: `${name}-runtime`, // 这里的设置和在optimization里设置是一样的，所以就在optimization里统一处理了
+
+      // 这里的设置和在optimization里设置是一样的，所以就在optimization里统一处理了
+      // runtime: `${name}-runtime`,
     };
     return obj;
   }, {});
@@ -62,6 +89,7 @@ module.exports = {
   isTest,
   isServerHttp,
   staticName,
+  publicPath,
   appSrc,
   outputPath,
   pages,
@@ -70,4 +98,5 @@ module.exports = {
   getPackages,
   getEntry,
   vendorPath,
+  getChunkNames,
 };

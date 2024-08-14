@@ -2,20 +2,15 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { isServerHttp, getPackages, dll } = require('./common');
-const { getDirFiles } = require('./utils');
+const { isServerHttp, getPackages, dll, getChunkNames } = require('./common');
 
 const packages = getPackages();
-
-const files = getDirFiles(dll.core.path);
-
-const fileName = files.filter((item) => /\.js$/.test(item))[0];
 
 // console.log('packages', packages);
 
 const getHtmlWebpackPlugin = (name) => {
-  const indexChunkName = `${name}/index`;
-  const modulesChunkName = `${name}/modules`;
+  const { indexChunkName, modulesChunkName } = getChunkNames(name);
+
   return new HtmlWebpackPlugin({
     title: name,
     template: path.resolve(__dirname, '../public/pages.html'), // 模板取定义root节点的模板
@@ -70,7 +65,7 @@ const getHtmlWebpackPlugin = (name) => {
             ...options,
             preloadLinks,
             prefetchLinks,
-            dllPaths: [path.join(assets.publicPath, 'vendors', fileName)],
+            dllPaths: [dll.core.jsPath],
           },
         },
       };

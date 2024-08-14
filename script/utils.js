@@ -26,15 +26,16 @@ function deleteFolder(folderPath) {
 // 获取文件夹内容
 function getDirFiles(folderPath) {
   if (!fs.existsSync(folderPath)) {
-    return console.log(folderPath + ':路径不存在');
+    console.log(folderPath + ':路径不存在');
+    return [];
   }
 
   if (fs.lstatSync(folderPath).isDirectory()) {
     return fs.readdirSync(folderPath);
   } else {
     console.log(folderPath + '不是文件夹');
-    return;
   }
+  return [];
 }
 
 module.exports = {
