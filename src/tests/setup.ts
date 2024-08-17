@@ -1,3 +1,26 @@
-import { excludeWarning } from './excludeWarning';
+/**
+ * antd-mobile老是报错，用这个文件处理下
+ */
+const originError = console.error;
+
+// remove px tester warning
+function excludeWarning() {
+  const errorSpy = jest
+    .spyOn(console, 'error')
+    .mockImplementation((msg, ...rest) => {
+      if (
+        String(msg).includes(
+          'The px tester is not rendering properly. Please make sure you have imported `antd-mobile/es/global`.',
+        )
+      ) {
+        return;
+      }
+      originError(msg, ...rest);
+    });
+
+  return () => {
+    errorSpy.mockRestore();
+  };
+}
 
 excludeWarning();

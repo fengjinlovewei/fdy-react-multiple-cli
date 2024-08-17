@@ -21,7 +21,11 @@ export function Todo({
       {todo.text}
       <div>
         <button onClick={() => toggleTodo(index)}>{toggleText}</button>
-        <button data-cy='remove' data-testid='remove-todo' onClick={() => removeTodo(index)}>
+        <button
+          data-cy='remove'
+          data-testid='remove-todo'
+          onClick={() => removeTodo(index)}
+        >
           x
         </button>
       </div>

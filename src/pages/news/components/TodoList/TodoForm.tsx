@@ -16,6 +16,7 @@ export function TodoForm({ addTodo }: { addTodo: (todo: string) => void }) {
         type='text'
         placeholder={`What's your plan?`}
         className='input'
+        data-testid='input'
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />

@@ -7,7 +7,7 @@ import * as styles from './index.module.less';
 function App() {
   const [todos, setTodos] = useState<TodoType[]>([
     {
-      text: 'Learn about dd',
+      text: 'Learn about',
       isCompleted: false,
     },
     {
@@ -40,7 +40,13 @@ function App() {
     <div className={styles.app}>
       <div className={styles['todo-list']}>
         {todos.map((todo, index) => (
-          <Todo key={index} index={index} todo={todo} toggleTodo={toggleTodo} removeTodo={removeTodo} />
+          <Todo
+            key={index}
+            index={index}
+            todo={todo}
+            toggleTodo={toggleTodo}
+            removeTodo={removeTodo}
+          />
         ))}
         <TodoForm addTodo={addTodo} />
       </div>

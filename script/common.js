@@ -36,14 +36,18 @@ const dll_core_path = path.join(
   process.env.NODE_ENV || '',
 );
 
-const dll = {
-  core: {
-    path: dll_core_path,
-    jsPath: path.join(
+const jsPath = isTest
+  ? ''
+  : path.join(
       publicPath,
       'vendors',
       getDirFiles(dll_core_path).filter((item) => /\.js$/.test(item))[0] || '',
-    ),
+    );
+
+const dll = {
+  core: {
+    path: dll_core_path,
+    jsPath,
     copyToPath: path.resolve(outputPath, 'vendors'),
     context: __dirname,
     name: 'dll_library_core',

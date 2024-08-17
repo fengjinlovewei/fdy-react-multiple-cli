@@ -17,7 +17,8 @@
     "debugger": "cross-env NODE_ENV=production node --inspect-brk ./node_modules/webpack/bin/webpack.js -c script/webpack.prod.js",
     "warning": "cross-env NODE_ENV=production node --trace-deprecation ./node_modules/webpack/bin/webpack.js -c script/webpack.prod.js",
     "prepare": "husky install && git config --local core.editor cat",
-    "test": "cross-env NODE_ENV=test && jest --watch"
+    "test": "cross-env NODE_ENV=test && jest --watch",
+    "test:cover": "cross-env NODE_ENV=test && jest --coverage"
   },
   "author": "fengjin",
   "license": "ISC",
