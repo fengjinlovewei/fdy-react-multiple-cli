@@ -13,6 +13,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
+const WebpackBar = require('webpackbar');
+
 module.exports = merge(baseConfig, {
   mode: 'production', // 生产模式,会开启tree-shaking和压缩代码,以及其他优化
   optimization: {
@@ -38,6 +40,11 @@ module.exports = merge(baseConfig, {
     new ScriptExtHtmlWebpackPlugin({
       inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
     }),
+    new WebpackBar({
+      // color: '#85d', // 默认green，进度条颜色支持HEX
+      basic: false, // 默认true，启用一个简单的日志报告器
+      profile: false, // 默认false，启用探查器。
+    }),
     // 抽离css插件
     // 如果使用 chunkhash ，引入css的js文件代码改变了，css文件的chunkhash也一起改变，
     // 且js文件的 chunkhash 和 css 文件的 chunkhash 是一样的
@@ -59,12 +66,12 @@ module.exports = merge(baseConfig, {
         standard: [/^adm-/, /^module-/], // 过滤以adm-开头的类名，这是antd的前缀，哪怕没用到也不删除
       },
     }),
-    // new CompressionPlugin({
-    //   test: /^(?!runtime\~)(.*)\.(js|css)$/, // 只生成css,js压缩文件,但是runtime文件要排除掉
-    //   filename: '[path][base].gz', // 文件命名
-    //   algorithm: 'gzip', // 压缩格式,默认是gzip
-    //   threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
-    //   minRatio: 0.8, // 压缩率,默认值是 0.8
-    // }),
+    new CompressionPlugin({
+      test: /^(?!runtime\~)(.*)\.(js|css)$/, // 只生成css,js压缩文件,但是runtime文件要排除掉
+      filename: '[path][base].gz', // 文件命名
+      algorithm: 'gzip', // 压缩格式,默认是gzip
+      threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
+      minRatio: 0.8, // 压缩率,默认值是 0.8
+    }),
   ],
 });

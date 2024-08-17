@@ -23,6 +23,7 @@ const getHtmlWebpackPlugin = (name) => {
       const chunks = compilation.entrypoints.get(indexChunkName).chunks;
 
       // debugger;
+      // console.log(indexChunkName);
       // console.log(compilation, assets, assetTags, options);
 
       let fileList = [];

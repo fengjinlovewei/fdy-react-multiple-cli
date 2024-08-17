@@ -93,4 +93,6 @@ git commit -m 'feat: 这是一个新的需求'
 
 ## 5.问题记录
 
-开发模式时，dll的 mode 也必须是 development ，否则热更新不生效
+1. 开发模式时，dll的 mode 也必须是 development ，否则热更新不生效
+2. node --trace-deprecation ./node_modules/.bin/webpack 不性，
+   需要 node --trace-deprecation node_modules/webpack/bin/webpack.js --mode production 才能找到报警堆栈信息。

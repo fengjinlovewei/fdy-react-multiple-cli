@@ -2,7 +2,6 @@
   "name": "fdy-react-multiple-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "dev": "npm run tools && cross-env NODE_ENV=development SERVER_HTTP=true webpack-dev-server -c script/webpack.dev.js",
     "build": "npm run tools && cross-env NODE_ENV=production webpack -c script/webpack.prod.js",
@@ -15,7 +14,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "tools": "node script/tools.mjs",
-    "debugger": "cross-env NODE_ENV=production node --inspect-brk  ./node_modules/webpack/bin/webpack.js -c script/webpack.prod.js",
+    "debugger": "cross-env NODE_ENV=production node --inspect-brk ./node_modules/webpack/bin/webpack.js -c script/webpack.prod.js",
+    "warning": "cross-env NODE_ENV=production node --trace-deprecation ./node_modules/webpack/bin/webpack.js -c script/webpack.prod.js",
     "prepare": "husky install && git config --local core.editor cat",
     "test": "cross-env NODE_ENV=test && jest --watch"
   },
@@ -90,7 +90,8 @@
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^5.10.0"
+    "webpack-merge": "^5.10.0",
+    "webpackbar": "^6.0.1"
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
