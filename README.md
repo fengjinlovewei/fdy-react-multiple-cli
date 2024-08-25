@@ -106,3 +106,4 @@ git commit -m 'feat: 这是一个新的需求'
 4. jest使用msw有各种坑，以下为代表
    https://github.com/mswjs/msw/issues/1810
    https://github.com/mswjs/msw/issues/1796
+   https://github.com/mswjs/msw/discussions/1934?sort=old

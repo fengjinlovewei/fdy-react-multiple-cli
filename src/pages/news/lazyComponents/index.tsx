@@ -16,10 +16,27 @@ const Demo = lazy(
     ),
 ); // 使用import语法配合react的Lazy动态引入资源
 
+const None = lazy(
+  () =>
+    // 设置 webpackPreload: true 不起作用
+    import(
+      /* webpackPrefetch: true */
+      './None'
+    ),
+); // 使用import语法配合react的Lazy动态引入资源
+
 export function LazyDemo() {
   return (
     <Suspense fallback={null}>
       <Demo />
+    </Suspense>
+  );
+}
+
+export function LazyNone() {
+  return (
+    <Suspense fallback={null}>
+      <None />
     </Suspense>
   );
 }

@@ -31,11 +31,8 @@ export const getTime = function (time: number, bool: boolean = true) {
 };
 
 export async function enableMocking() {
-  console.log('isMock', isMock);
-
-  if (!isDev() || !isMock) return;
-
-  const { worker } = await import('../api/mock/index.browser.mock');
-
-  return worker.start();
+  if (isDev() && isMock) {
+    const { worker } = await import('@/api/mock/index.browser.mock');
+    return worker.start();
+  }
 }

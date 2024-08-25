@@ -6,7 +6,7 @@ import inquirer from 'inquirer';
 import chalk from 'chalk';
 import { dirname } from 'dirname-filename-esm';
 
-import { pages, getPackages } from './common.js';
+import { pages, getPackages, isDev } from './common.js';
 import packageReadonly from './package-readonly.js';
 // import server from '../src/api/mock/index.mock.mjs';
 
@@ -46,6 +46,7 @@ function tools() {
       type: 'list',
       message: `是否使用 mock 数据？`,
       name: 'isMock',
+      when: () => isDev,
       choices: [
         {
           name: 'Yes',

@@ -2,8 +2,6 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const baseConfig = require('./webpack.config.js');
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV);
-
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 // 合并公共配置,并添加开发环境配置

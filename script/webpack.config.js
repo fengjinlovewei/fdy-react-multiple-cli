@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -31,6 +32,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const lessRegex = /\.less$/;
 const lessModuleRegex = /\.module\.less$/;
+
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 const getStyleLoaders = (cssOptions, preProcessor) => {
   const loaders = [
@@ -101,7 +104,7 @@ module.exports = {
          * 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader,
          * 所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
          */
-        use: ['thread-loader', 'babel-loader'],
+        use: ['thread-loader', 'babel-loader', 'replace-code-loader'],
       },
       {
         // 匹配到一个就不继续培培乐，顺序是从下到上
@@ -239,6 +242,9 @@ module.exports = {
         },
       },
     ],
+  },
+  resolveLoader: {
+    modules: ['node_modules', path.resolve(__dirname, 'loaders')],
   },
   optimization: {
     // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用

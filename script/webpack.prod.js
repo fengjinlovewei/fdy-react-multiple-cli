@@ -30,7 +30,7 @@ module.exports = merge(baseConfig, {
         extractComments: true, //是否将注释剥离到单独的文件中,默认值： true
         terserOptions: {
           compress: {
-            pure_funcs: ['console.log'], // 删除console.log
+            // pure_funcs: ['console.log'], // 删除console.log
           },
         },
       }),

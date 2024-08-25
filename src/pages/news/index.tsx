@@ -9,6 +9,6 @@ import 'amfe-flexible/index.js';
 initTheme('light');
 
 enableMocking().then(() => {
-  console.log(' ReactDOM.createRoot');
+  console.log('ReactDOM.createRoot');
   ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
 });
