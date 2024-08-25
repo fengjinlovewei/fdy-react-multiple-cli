@@ -77,6 +77,7 @@ const config = {
 
   // The maximum amount of workers used to run your tests. Can be specified as % or a number. E.g. maxWorkers: 10% will use 10% of your CPU amount + 1 as the maximum worker number. maxWorkers: 2 will use a maximum of 2 workers.
   // maxWorkers: "50%",
+  maxWorkers: 1,
 
   // 要从所需模块的位置递归搜索的目录名数组
   // moduleDirectories: [
@@ -141,12 +142,13 @@ const config = {
   // 模块的路径，这些模块运行一些代码，以便在每次测试之前配置或设置测试环境
   // 就是当我们测试之前，需要额外准备什么
   setupFiles: [
+    '<rootDir>/src/tests/jest.polyfills.js',
     // 这是一个垫片，它会去补偿 jsdom 不支持的 react 部分，解决兼容的一些问题
     // 使用前必须安装 pnpm i react-app-polyfill -D
     'react-app-polyfill/jsdom',
     // antd-mobile 老是报错，最后在这里找到了答案
     // https://github.com/ant-design/ant-design-mobile/pull/5208/files
-    '<rootDir>/src/tests/setup.ts',
+    '<rootDir>/src/tests/antd-mobile-error.ts',
   ],
 
   // 模块的路径列表，这些模块运行一些代码，以便在每次测试之前配置或设置测试框架
@@ -160,7 +162,9 @@ const config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jsdom',
+  // testEnvironment: 'jsdom',
+  // https://testing-library.com/docs/react-testing-library/setup/#jest-27
+  testEnvironment: 'jest-environment-jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -169,7 +173,10 @@ const config = {
   // testLocationInResults: false,
 
   // 什么样的文件会被 jest 执行测试
-  testMatch: ['<rootDir>/src/**/__tests__/**/*.[jt]s?(x)', '<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)'],
+  testMatch: [
+    '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
+    '<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)',
+  ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -196,16 +203,22 @@ const config = {
     '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
     // 当test测试文件中引入css时，会执行 cssTransform.js 的 process，返回的是一个空对象
     // 这样做的目的就是不想让css参与测试，应该是避免错误引入的兜底策略。
-    '^.+\\.(css|less)$': '<rootDir>/config/jest/cssTransform.mjs',
+    '^.+\\.(css|less|sass|scss)$': '<rootDir>/config/jest/cssTransform.mjs',
     // 把一些文件，比如png等，直接返回一个名字，不需要真是的文件内容
-    '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': '<rootDir>/config/jest/fileTransform.mjs',
+    '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)':
+      '<rootDir>/config/jest/fileTransform.mjs',
   },
 
   // 与所有源文件路径匹配的 regexp 模式字符串数组，匹配的文件将跳过转换
   // 就是不会走 transform 的匹配逻辑
   transformIgnorePatterns: [
-    '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    //'[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    // '/node_modules/',
+    // '/node_modules/(?!(@bundled-es-modules))',
+    //'[/\\\\]node_modules[/\\\\].+[^esm]\\.(js|jsx|mjs|cjs|ts|tsx)$',
+    'node_modules/.pnpm/(?!(@bundled-es-modules|axios)).+\\.(js|jsx|mjs|cjs|ts|tsx)$',
     '^.+\\.module\\.(css|sass|scss|less)$',
+    // '\\.pnp\\.[^\\/]+$',
   ],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them

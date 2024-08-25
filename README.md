@@ -93,6 +93,16 @@ git commit -m 'feat: 这是一个新的需求'
 
 ## 5.问题记录
 
-1. 开发模式时，dll的 mode 也必须是 development ，否则热更新不生效
+1. 开发模式时，dll的 mode 也必须是 development ，否则热更新不生效。
+
 2. node --trace-deprecation ./node_modules/.bin/webpack 不性，
    需要 node --trace-deprecation node_modules/webpack/bin/webpack.js --mode production 才能找到报警堆栈信息。
+
+3. npx msw init ./public  
+   作用是将msw需要用到的 mockServiceWorker.js 文件 放到公共目录，以便msw在客户端使用。
+   ps：安装的2.2.5版本报错 Cannot read properties of undefined (reading 'url')
+   解决办法：降级到2.1.4（注意把版本锁死！不能使用^或者~），因为新版本都有问题。然后删除 pnpm-lock.yaml 和 node_modules 重新安装，重新 npx msw init ./public。
+
+4. jest使用msw有各种坑，以下为代表
+   https://github.com/mswjs/msw/issues/1810
+   https://github.com/mswjs/msw/issues/1796

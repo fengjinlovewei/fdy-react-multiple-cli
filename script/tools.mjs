@@ -8,6 +8,7 @@ import { dirname } from 'dirname-filename-esm';
 
 import { pages, getPackages } from './common.js';
 import packageReadonly from './package-readonly.js';
+// import server from '../src/api/mock/index.mock.mjs';
 
 const __dirname = dirname(import.meta);
 
@@ -18,20 +19,21 @@ const jsonPath = path.join(__dirname, './package-readonly.json');
 
 const PACKAGE = process.env.PACKAGE;
 
-function writeJson(packages) {
+function writeJson(packages, isMock) {
   // pkg写入文件
   fs.writeFileSync(
     jsonPath,
     JSON.stringify({
       ...packageReadonly,
       packages,
+      isMock,
     }),
   );
 }
 
 if (PACKAGE) {
   // pkg写入文件
-  writeJson(PACKAGE.split(','));
+  writeJson(PACKAGE.split(','), false);
 } else {
   tools();
 }
@@ -40,6 +42,21 @@ function tools() {
   const pagesObj = pages.map((name) => ({ name }));
 
   const promptList = [
+    {
+      type: 'list',
+      message: `是否使用 mock 数据？`,
+      name: 'isMock',
+      choices: [
+        {
+          name: 'Yes',
+          value: true,
+        },
+        {
+          name: 'No',
+          value: false,
+        },
+      ],
+    },
     {
       type: 'list',
       message: `上次操作的目录为 ${chalk.green(packages.join(','))} ，是否继续使用？`,
@@ -76,10 +93,8 @@ function tools() {
 
   inquirer
     .prompt(promptList)
-    .then(({ goon, pages }) => {
-      if (!goon) {
-        writeJson(goon ? packages : pages);
-      }
+    .then(async ({ goon, pages, isMock }) => {
+      writeJson(goon ? packages : pages, isMock);
     })
     .catch((error) => {
       console.log(error);

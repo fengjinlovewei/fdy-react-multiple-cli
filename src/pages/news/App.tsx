@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.less';
 
 import TestClass from '@/pages/news/components/TestClass';
 import { LazyDemo } from '@/pages/news/lazyComponents';
 import TodoList from '@/pages/news/components/TodoList';
 import Footer from '@/pages/news/components/Footer';
+
+import { homeServer } from '@/api';
 
 import { initTheme } from '@/styles/theme';
 
@@ -16,6 +18,15 @@ import uniqueId from 'lodash/uniqueId';
 function App() {
   const [lazyShow, setLazyShow] = useState(false);
   const [text, setText] = useState('');
+  const [userList, setUserList] = useState<UserType[]>([]);
+
+  useEffect(() => {
+    (async function () {
+      const list = await homeServer.getUserList();
+      // console.log(list);
+      setUserList(list);
+    })();
+  }, []);
 
   // 点击事件中动态引入css, 设置show为true d
   const onClick = () => {
@@ -27,6 +38,17 @@ function App() {
     initTheme('dark');
   };
 
+  const getName = () => {
+    homeServer
+      .getName()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <div className='box'>
@@ -34,7 +56,17 @@ function App() {
           <span>我是主题颜色哈</span>
           222
         </div>
+        <button onClick={getName}>getName</button>
         <TodoList></TodoList>
+        <div>
+          {userList.map((item) => {
+            return (
+              <div key={item.userId} data-testid='user-item'>
+                {item.username}
+              </div>
+            );
+          })}
+        </div>
         <div>
           text: <span>{text}</span>
         </div>

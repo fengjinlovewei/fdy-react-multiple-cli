@@ -88,6 +88,7 @@ class SplitStaticResourcePlugin {
 
             // 开始复制图片等文件到各个chunk
             for (const chunk of compilation.chunks) {
+              if (!chunk.name) continue;
               const name = chunk.name.split('/')[0];
 
               const newAuxiliaryFiles = new Set();
@@ -128,6 +129,7 @@ class SplitStaticResourcePlugin {
     compiler.hooks.emit.tap('SplitStaticResourcePlugin', (compilation) => {
       // 删除与输出的 chunk 相关的文件夹目录，以防止hash文件累加，占用空间。
       for (const chunk of compilation.chunks) {
+        if (!chunk.name) continue;
         const name = chunk.name.split('/')[0];
         if (!isDev) {
           // 新的chunk输出文件前，先把对应的文件夹删除掉

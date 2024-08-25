@@ -30,6 +30,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@commitlint/cli": "^19.3.0",
     "@eslint/js": "^9.4.0",
+    "@faker-js/faker": "^8.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -38,6 +39,7 @@
     "@types/lodash": "^4.17.5",
     "@types/node": "^20.14.2",
     "@types/prop-types": "^15.7.12",
+    "@types/qs": "^6.9.15",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-lazyload": "^3.2.3",
@@ -73,6 +75,7 @@
     "less-loader": "^12.2.0",
     "lint-staged": "^15.2.5",
     "mini-css-extract-plugin": "^2.9.0",
+    "msw": "2.1.4",
     "postcss-loader": "^8.1.1",
     "prettier": "^3.3.1",
     "purgecss-webpack-plugin": "^6.0.0",
@@ -87,6 +90,7 @@
     "thread-loader": "^4.0.2",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.12.0",
+    "undici": "^6.19.8",
     "webpack": "^5.91.0",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
@@ -97,13 +101,21 @@
   "dependencies": {
     "amfe-flexible": "^2.2.1",
     "antd-mobile": "^5.36.1",
+    "axios": "^1.7.4",
     "css-vars-ponyfill": "^2.4.9",
     "lodash": "^4.17.21",
     "postcss-pxtorem": "^6.1.0",
     "prop-types": "^15.8.1",
+    "qs": "^6.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-lazyload": "^3.2.1",
     "swr": "^2.2.5"
+  },
+  "msw": {
+    "workerDirectory": [
+      "build",
+      "public"
+    ]
   }
 }
