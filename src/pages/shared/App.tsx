@@ -3,12 +3,14 @@ import './App.less';
 
 import TestClass from './components/TestClass';
 import { LazyDemo } from '@/pages/shared/lazyComponents';
-import { LazyDemo as LazyDemo2 } from '@/lazyComponents/';
+import { LazyDemoCommon } from '@/lazyComponents/';
 import Footer from './components/Footer';
 
 import { initTheme } from '@/styles/theme';
 
 import { isDev, DateFormat } from '@/utils/index';
+
+import data from '@/assets/images/data.jpeg';
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
@@ -33,8 +35,9 @@ function App() {
           我是主题颜色哈哈
         </div>
         <button onClick={onClick}>lazyShow</button>
+        <img src={data} alt='data' />
         {lazyShow && <LazyDemo></LazyDemo>}
-        {lazyShow && <LazyDemo2></LazyDemo2>}
+        {lazyShow && <LazyDemoCommon></LazyDemoCommon>}
         <h2>222webpack22225222-react-tswwssddd {isDev()}</h2>
         <h3>{DateFormat()}</h3>
         <TestClass></TestClass>

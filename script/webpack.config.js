@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const SplitStaticResourcePlugin = require('./webpack-plugin/split-static-resource-plugin');
+const SplitStaticResourcePlugin = require('./plugins/split-static-resource-plugin');
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent');
 
 const htmlTemplates = require('./getHtmlTemplates');
@@ -65,6 +65,7 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
 module.exports = {
   entry, // 入口文件
   // 打包文件出口
+  // 热更新模式下会导致chunkhash和contenthash计算错误，因此热更新下只能使用hash模式或者不使用hash
   output: {
     filename: isDev ? '[name].js' : '[name].[chunkhash:8].js', // 每个输出js的名称
     chunkFilename: isDev ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js', // 异步包输出目录
@@ -248,9 +249,9 @@ module.exports = {
   },
   optimization: {
     // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
-    // runtimeChunk: {
-    //   name: (entrypoint) => `runtime~${entrypoint.name}`,
-    // },
+    runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`,
+    },
     splitChunks: {
       cacheGroups: {
         default: false,

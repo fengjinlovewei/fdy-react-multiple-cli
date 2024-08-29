@@ -107,3 +107,28 @@ git commit -m 'feat: 这是一个新的需求'
    https://github.com/mswjs/msw/issues/1810
    https://github.com/mswjs/msw/issues/1796
    https://github.com/mswjs/msw/discussions/1934?sort=old
+
+5. 有入口A-chunck，引入可异步 B-chunk，A和B都引用了 1.png ，打包的时候A的chunk中有
+   "1.png(或者id)": () => 绝对路径1 的模块，B中没有这个木块的id，因为B是引用A中的id的
+
+   但如果现在又有一个入口C-chunk，它也引用了异步B-chunk，这时 B-chunk 的模块中就会产生一个
+   "1.png(或者id)": () => 绝对路径2 的模块，因为C中没有1.png ，所以B-chunk没法复用，只能创建。
+
+   当C-chunk来捣乱后，那么此时 A-chunck 和 B-chunk又产生了新问题：
+
+   "1.png(或者id)": () => 绝对路径1 的模块，b也有 "1.png(或者id)": () => 绝对路径2 的模块, 由于B是异步的，那么A先执行，把 "1.png(或者id)" 存入到 **webpack_module_cache** 的模块缓存容器中，当B一步执行完，也去设置"1.png(或者id)"这个id时，由于缓存中已经存在，所以直接返回了A的资源，
+
+   所以，
+   在A页面访问B，B中的1.png的链接是 绝对路径1，而不是 绝对路径2
+   在C页面访问B，B中的1.png的链接是 绝对路径2，而不是 绝对路径1
+
+   正常来说：绝对路径1 和 绝对路径2 总是相等的，引用那个都没有问题，但是，
+   split-static-resource-plugin 插件会去修改 绝对路径1 和 绝对路径2，本意是想
+   在A引用B的时候，B中的1.png依然能指向B/images中的1.png，但是由于这个机制，导致
+   B中的1.png指向了A/images中的1.png
+
+   不过这也不是一个问题了，不会导致结果错误，只是开发中看到不同入口引用同一异步chunk图片路径不一致有点奇怪。
+
+6. 在使用dev模式的时候，css中的图片链接是localhost开头的，不是/\*\*/images这种绝对路径的格式，这是因为dev环境中没有使用
+   MiniCssExtractPlugin.loader 生成独立的css文件，所以在 files 字段中找不到css文件，导致无法使用
+   split-static-resource-plugin 替换路径。

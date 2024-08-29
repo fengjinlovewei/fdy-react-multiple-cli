@@ -6,6 +6,7 @@ import { lazy, Suspense } from 'react';
  * 异步加载组件的原理还需要研究
  */
 
+// 使用import语法配合react的Lazy动态引入资源
 const Demo = lazy(
   () =>
     // 设置 webpackPreload: true 不起作用
@@ -14,16 +15,16 @@ const Demo = lazy(
       /* webpackPrefetch: true */
       './Demo'
     ),
-); // 使用import语法配合react的Lazy动态引入资源
-
+);
 const None = lazy(
   () =>
     // 设置 webpackPreload: true 不起作用
     import(
+      /* webpackChunkName: "none/index" */
       /* webpackPrefetch: true */
       './None'
     ),
-); // 使用import语法配合react的Lazy动态引入资源
+);
 
 export function LazyDemo() {
   return (

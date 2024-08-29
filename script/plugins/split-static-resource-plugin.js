@@ -15,10 +15,11 @@ class SplitStaticResourcePlugin {
           {
             name: 'SplitStaticResourcePlugin',
             stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
+            // stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
             additionalAssets: true,
           },
           (assets) => {
-            // debugger;
+            //debugger;
             // console.log(assets);
             // console.log(compilation);
 
@@ -55,10 +56,23 @@ class SplitStaticResourcePlugin {
              * 比如 news 这个 chunk 下的 __@static@__/images/data2.35f297be.webp 路径，要修改成
              * news/images/data2.35f297be.webp
              */
+            // debugger;
             for (let item in assets) {
               // console.log(compiler);
               const asset = compilation.getAsset(item); // <- standardized version of asset object
-              const name = asset.name.split('/')[0];
+              const nameList = asset.name.split('/');
+              let name = nameList[0];
+              if (name === 'none') {
+                debugger;
+              }
+              // length=1，说明这个chunk没有目录名称，比如分离异步包时，没有**/**(**/**.b6131d87.chunk.js)这种命名方式，
+              // 只是写了一个名字**(**.b6131d87.chunk.js)或者什么也没写(213.b6131d87.chunk.js)，
+              // 会被打包到根目录，那么这时需要把这些包里的 image 放到 根目录的 assets 目录里
+              // 这么做的弊端就是老的图片没法被删除掉，因为不知道哪个有用那个没用，不敢删
+              // 所以异步包必须使用 **/** 的格式定义名字！，这里容错处理只是兜底
+              if (nameList.length <= 1) {
+                name = 'assets';
+              }
               const content = asset.source.source(); // <- standardized way of getting asset source
               if (typeof content === 'string') {
                 // standardized way of updating asset source
@@ -88,8 +102,15 @@ class SplitStaticResourcePlugin {
 
             // 开始复制图片等文件到各个chunk
             for (const chunk of compilation.chunks) {
-              if (!chunk.name) continue;
-              const name = chunk.name.split('/')[0];
+              let name = 'assets';
+              if (chunk.name) {
+                const namelist = chunk.name.split('/');
+                if (namelist.length > 1) {
+                  name = namelist[0];
+                }
+              }
+              // if (!chunk.name) continue;
+              // const name = chunk.name.split('/')[0];
 
               const newAuxiliaryFiles = new Set();
 
@@ -114,6 +135,8 @@ class SplitStaticResourcePlugin {
               //   chunk.auxiliaryFiles.add(newAuxiliaryFile);
               // }
             }
+
+            debugger;
 
             // 删除与 staticName 名称相关的 asset 文件
             for (const asset in compilation.assets) {

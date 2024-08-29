@@ -3,6 +3,7 @@ import './App.less';
 
 import TestClass from '@/pages/news/components/TestClass';
 import { LazyDemo, LazyNone } from '@/pages/news/lazyComponents';
+import { LazyDemoCommon } from '@/lazyComponents/';
 import TodoList from '@/pages/news/components/TodoList';
 import Footer from '@/pages/news/components/Footer';
 
@@ -82,6 +83,7 @@ function App() {
         </div>
         <button onClick={onClick}>lazyShow</button>
         {lazyShow && <LazyDemo></LazyDemo>}
+        {lazyShow && <LazyDemoCommon></LazyDemoCommon>}
         {lazyShow && <LazyNone></LazyNone>}
         <h2>222webpack22225222-react-tswwddddssddd {isDev()}</h2>
         <h3>
