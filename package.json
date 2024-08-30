@@ -6,7 +6,7 @@
     "dev": "npm run dev:tools && cross-env NODE_ENV=development SERVER_HTTP=true webpack-dev-server -c script/webpack.dev.js",
     "build": "npm run pro:tools && cross-env NODE_ENV=production webpack -c script/webpack.prod.js",
     "build:analy": "npm run pro:tools && cross-env NODE_ENV=production webpack -c script/webpack.analy.js",
-    "build:open": "npm run pro:tools && cross-env NODE_ENV=production SERVER_HTTP=true webpack -c script/webpack.prod.js && http-server dist -p 3002 -d false --no-dotfiles -o index",
+    "open": "npm run pro:tools && cross-env NODE_ENV=production SERVER_HTTP=true webpack -c script/webpack.prod.js && http-server dist -p 3002 -d false --no-dotfiles -c-1 -o index",
     "build:stats": "npm run pro:tools && cross-env NODE_ENV=production webpack -c script/webpack.prod.js --json > stats.json",
     "dll:core:pro": "cross-env NODE_ENV=production webpack -c script/webpack.vendor-core.config.js",
     "dll:core:dev": "cross-env NODE_ENV=development webpack -c script/webpack.vendor-core.config.js",
@@ -114,9 +114,6 @@
     "swr": "^2.2.5"
   },
   "msw": {
-    "workerDirectory": [
-      "build",
-      "public"
-    ]
+    "workerDirectory": "public"
   }
 }

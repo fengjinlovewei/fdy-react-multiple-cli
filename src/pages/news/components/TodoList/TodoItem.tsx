@@ -1,6 +1,6 @@
-import * as styles from './Todo.module.less';
+import * as styles from './TodoItem.module.less';
 
-export function Todo({
+export default function TodoItem({
   todo,
   index,
   toggleTodo,

@@ -1,13 +1,7 @@
 import './Demo.less';
 
 import data from '@/assets/images/data.jpeg';
-
 import f44 from '@/assets/images/f4.preload.png';
-
-import(
-  /* webpackPrefetch: true */
-  '@/assets/images/data.jpeg'
-);
 
 function LazyDemoCommon() {
   return (

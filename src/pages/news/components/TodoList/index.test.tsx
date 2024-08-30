@@ -23,6 +23,8 @@ describe('TodoList', () => {
 
     // 这里必须用await，在其他测试组件里，没用await结果也是正确的，但是这个就是不行，很奇怪
     await userEvent.click(
+      // 直接screen.getByText('Learn about').getByTestId('remove-todo') 是不行的
+      // 需要借助 within 实现链式调用
       within(screen.getByText('Learn about')).getByTestId('remove-todo'),
     );
 

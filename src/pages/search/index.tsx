@@ -2,7 +2,7 @@ import uniqueId from 'lodash/uniqueId';
 import f2 from '@/assets/images/f2.prefetch.png';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-//import { LazyDemoCommon } from '@/lazyComponents/';
+import { LazyDemoCommon } from '@/lazyComponents/';
 // import { LazyDemo, LazyNone } from '@/pages/news/lazyComponents';
 
 const fn = () => {
@@ -15,7 +15,7 @@ console.log(f2);
 function App() {
   return (
     <>
-      {/* <LazyDemoCommon></LazyDemoCommon> */}
+      <LazyDemoCommon></LazyDemoCommon>
       {/* <LazyNone></LazyNone> */}
     </>
   );

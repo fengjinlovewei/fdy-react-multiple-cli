@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Todo } from './Todo';
+import TodoItem from './TodoItem';
 import { TodoForm } from './TodoForm';
 import { toggleOneTodo } from './toggleOneTodo';
 import * as styles from './index.module.less';
@@ -40,7 +40,7 @@ function App() {
     <div className={styles.app}>
       <div className={styles['todo-list']}>
         {todos.map((todo, index) => (
-          <Todo
+          <TodoItem
             key={index}
             index={index}
             todo={todo}

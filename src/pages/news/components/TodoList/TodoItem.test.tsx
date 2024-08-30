@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Todo } from './Todo';
+import TodoItem from './TodoItem';
 
 describe('todo-item', () => {
-  it('todo-item-[show, handle]', () => {
+  it('todo-item-[show, handle]', async () => {
     const todo = {
       id: 1,
       text: 'haha',
@@ -14,7 +14,7 @@ describe('todo-item', () => {
     const removeTodo = jest.fn();
 
     render(
-      <Todo
+      <TodoItem
         todo={todo}
         toggleTodo={toggleTodo}
         removeTodo={removeTodo}
@@ -24,14 +24,14 @@ describe('todo-item', () => {
     expect(screen.getByText('haha')).toBeInTheDocument();
     expect(screen.getByText('Redo')).toBeInTheDocument();
 
-    userEvent.click(screen.getByText('Redo'));
+    await userEvent.click(screen.getByText('Redo'));
     expect(toggleTodo).toHaveBeenCalledTimes(1);
 
     // ps：点击过后的效果在单元测试是不应该关心的，那些应该在集成测试去做
     // 单元测试只需要关心本单元的基本方法已经触发了，保证基本功能可以用就行。
     // expect(screen.getByText('Complete')).toBeInTheDocument();
 
-    userEvent.click(screen.getByText('x'));
+    await userEvent.click(screen.getByText('x'));
     expect(removeTodo).toHaveBeenCalledTimes(1);
   });
 
@@ -46,7 +46,7 @@ describe('todo-item', () => {
     const removeTodo = jest.fn();
 
     render(
-      <Todo
+      <TodoItem
         todo={todo}
         toggleTodo={toggleTodo}
         removeTodo={removeTodo}

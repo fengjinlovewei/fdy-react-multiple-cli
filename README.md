@@ -99,7 +99,9 @@ git commit -m 'feat: 这是一个新的需求'
    需要 node --trace-deprecation node_modules/webpack/bin/webpack.js --mode production 才能找到报警堆栈信息。
 
 3. npx msw init ./public  
-   作用是将msw需要用到的 mockServiceWorker.js 文件 放到公共目录，以便msw在客户端使用。
+   作用是
+   生成 msw需要用到的 mockServiceWorker.js 文件，然后放到公共目录，以便msw在客户端使用。
+   （package.json 中也会有对应的字段 "msw": {"workerDirectory": "public"}。）
    ps：安装的2.2.5版本报错 Cannot read properties of undefined (reading 'url')
    解决办法：降级到2.1.4（注意把版本锁死！不能使用^或者~），因为新版本都有问题。然后删除 pnpm-lock.yaml 和 node_modules 重新安装，重新 npx msw init ./public。
 
@@ -129,6 +131,26 @@ git commit -m 'feat: 这是一个新的需求'
 
    不过这也不是一个问题了，不会导致结果错误，只是开发中看到不同入口引用同一异步chunk图片路径不一致有点奇怪。
 
-6. 在使用dev模式的时候，css中的图片链接是localhost开头的，不是/\*\*/images这种绝对路径的格式，这是因为dev环境中没有使用
-   MiniCssExtractPlugin.loader 生成独立的css文件，所以在 files 字段中找不到css文件，导致无法使用
-   split-static-resource-plugin 替换路径。
+6. 在使用dev模式的时候，css中的图片链接是localhost开头的，不是/\*\*/images这种绝对路径的格式，这是因
+   dev环境中没有使用MiniCssExtractPlugin.loader 生成独立的css文件，所以在 files 字段中找不到css件，导致无法使用split-static-resource-plugin 替换路径。
+
+7. 使用异步包存在问题：
+   原因：当前项目使用的是可以单独打包的机制，比如说当前有news,search,shared三个页面，我可以三个页面一起打包，也可以
+   单独打包某一个页面或两个页面。当三个页面都引入了名字为 lazyDemo 的异步组件时：
+   如果只有new打包了，lazyDemo内容为显示订单列表，记作lazyDemo-1，打包部署了；
+   过了2天search又改动了 lazyDemo 组件为显示购物车，记作lazyDemo-2，打包部署了，
+   那么此时出现的问题是：
+
+   1. 如果 lazyDemo 有hash值的话，new组件就访问不到原来的 lazyDemo-1 了，会报错，因为已经被 lazyDemo-2替换了，hash值变了；
+   2. 既是去掉 hash 变量，出现的新问题就是 new 期望显示的是订单列表的内容 和 lazyDemo-1 的 props 参数，但是现在成了
+      lazyDemo-2的 props 和 显示购物车，不同的props参数可能造成 lazyDemo-2 组件报错，并且改变了new原有的显示逻辑肯定是不行的。
+
+   解决问题：
+
+   1. 禁止使用异步包。弊端：少了异步加载的特性。
+   2. 打包的时候必须所有的页面一起打包。弊端：违背了我们当初设计分页打包的初衷，当页面很多时，打包部署需要的时间会很长！
+   3. 使用自定义插件的方式解决上出两个问题的最优解。但是目前我还没研究出来。
+
+   所以，我觉得目前使用方案一更好一点。
+
+8. 使用 npm run open 时要注意清除缓存， http-server -c-1，可以做到。
