@@ -1,6 +1,9 @@
+import { useContext } from 'react';
 import LazyLoad from 'react-lazyload';
 
 import * as styles from './Footer.module.less';
+
+import { GlobalContext } from '@/pages/news/store';
 
 import './2.css';
 
@@ -11,10 +14,16 @@ import f4 from '@/assets/images/f4.preload.png';
 import data from '@/assets/images/data.jpeg';
 
 const Footer = () => {
+  const { level, name, setName, setLevel } = useContext(GlobalContext)!;
+
   return (
     <>
       <div className={styles.footer}>
-        <div className={styles.test}>footer</div>
+        <div className={styles.test}>footer </div>
+        <div>{level}</div>
+        <div>{name}</div>
+        <button onClick={() => setLevel(300)}>setLevel</button>
+        <button onClick={() => setName('张三')}>setName</button>
         <div className='title'>title</div>
         <LazyLoad height={200} offset={100} once>
           <img src={f1} alt='' />
