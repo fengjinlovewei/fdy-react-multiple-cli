@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useStore } from './index';
 
-describe.only('store 测试', () => {
+describe('store 测试', () => {
   it('store 测试-1', async () => {
     const { result } = renderHook(useStore);
 
