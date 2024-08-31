@@ -1,4 +1,4 @@
-import React, { useReducer, FC, ReactNode } from 'react';
+import { useReducer, FC, ReactNode, createContext } from 'react';
 
 const initData = {
   level: 10,
@@ -14,7 +14,7 @@ interface funcType {
 
 type GlobalContextType = initDataType & funcType;
 
-export const GlobalContext = React.createContext<GlobalContextType>({} as any);
+export const GlobalContext = createContext<GlobalContextType>({} as any);
 export const GlobalProvider = GlobalContext.Provider;
 
 const LEVEL = Symbol();
@@ -26,18 +26,19 @@ interface actionType {
 }
 
 const Reducer = (state: initDataType, action: actionType): initDataType => {
-  switch (action.type) {
+  const { type, payload } = action;
+
+  switch (type) {
     case LEVEL:
-      return { ...state, level: action.payload };
+      return { ...state, level: payload };
     case NAME:
-      return { ...state, name: action.payload };
+      return { ...state, name: payload };
     default:
       return state;
   }
 };
 
-const Store: FC<{ children: ReactNode }> = (props) => {
-  const { children } = props;
+export const useStore = () => {
   const [state, dispatch] = useReducer(Reducer, initData);
 
   const funcs: funcType = {
@@ -55,9 +56,17 @@ const Store: FC<{ children: ReactNode }> = (props) => {
     },
   };
 
-  return (
-    <GlobalProvider value={{ ...state, ...funcs }}>{children}</GlobalProvider>
-  );
+  return {
+    ...state,
+    ...funcs,
+  };
 };
 
-export default Store;
+const StoreContent: FC<{ children: ReactNode }> = (props) => {
+  const { children } = props;
+  const store = useStore();
+
+  return <GlobalProvider value={store}>{children}</GlobalProvider>;
+};
+
+export default StoreContent;

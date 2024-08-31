@@ -12,10 +12,10 @@ describe('App 测试', () => {
     // });
   });
 
-  it.skip('测试-2', () => {
+  it.skip('测试-2', async () => {
     const text = 'hello';
     render(<App />);
-    useEvent.type(screen.getByPlaceholderText('请输入'), text);
+    await useEvent.type(screen.getByPlaceholderText('请输入'), text);
     expect(screen.getByText(text)).toBeInTheDocument();
   });
 });
