@@ -1,24 +1,35 @@
-import uniqueId from 'lodash/uniqueId';
-import f2 from '@/assets/images/f2.prefetch.png';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { LazyDemoCommon } from '@/lazyComponents/';
+// import uniqueId from 'lodash/uniqueId';
+// import f2 from '@/assets/images/f2.prefetch.png';
+// import React from 'react';
+// import ReactDOM from 'react-dom/client';
+// import { LazyDemoCommon } from '@/lazyComponents/';
 // import { LazyDemo, LazyNone } from '@/pages/news/lazyComponents';
 
-const fn = () => {
-  return uniqueId();
-};
+// const fn = () => {
+//   return uniqueId();
+// };
 
-console.log(fn());
-console.log(f2);
+// class a {}
 
-function App() {
-  return (
-    <>
-      <LazyDemoCommon></LazyDemoCommon>
-      {/* <LazyNone></LazyNone> */}
-    </>
-  );
+// async function haha(params) {}
+
+async function getValue() {
+  return await 555;
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+getValue();
+
+const arr = [1, 2, 3];
+const newArr = arr.includes(3);
+console.log(newArr);
+
+// function App() {
+//   return (
+//     <>
+//       {/* <LazyDemoCommon></LazyDemoCommon> */}
+//       {/* <LazyNone></LazyNone> */}
+//     </>
+//   );
+// }
+
+// ReactDOM.createRoot(document.getElementById('root')!).render(<App />);

@@ -1,5 +1,8 @@
 const { isDev } = require('./script/common');
 
+/**
+ * plugin 和 preset 是有顺序的，先 plugin 再 preset，plugin 从左到右，preset 从右到左。
+ */
 module.exports = {
   // ...
   // 预设执行顺序由右往左,所以先处理ts,再处理jsx
@@ -27,8 +30,9 @@ module.exports = {
         //  "chrome": 35,
         //  "ie": 9
         // },
-        useBuiltIns: 'usage', // 根据配置的浏览器兼容,以及代码中使用到的api进行引入polyfill按需添加
-        corejs: 3, // 配置使用core-js低版本
+        // 使用 @babel/plugin-transform-runtime 后，useBuiltIns和corejs就不能设置了，否则会出现冲突问题
+        // useBuiltIns: 'usage', // 根据配置的浏览器兼容,以及代码中使用到的api进行引入polyfill按需添加
+        // corejs: 3, // 配置使用core-js低版本
       },
     ],
     [
@@ -46,5 +50,13 @@ module.exports = {
     isDev && require.resolve('react-refresh/babel'),
     // 这个插件支持class使用修饰符
     ['@babel/plugin-proposal-decorators', { legacy: true }],
+    /**
+     * 这个包还需要 @babel/runtime @babel/runtime-corejs3 支持
+     * 他主要解决了api方法直接挂载到原型上的问题（array.prototype.fill = xxxx）
+     *
+     * 1.有些第三方插件可能就会判断当前环境的某个方法存不存在的方式判断兼容性，如果你挂在了原形上就会破坏原有逻辑判断。
+     * 2. 不需要用的地方就导入垫片代码，而是require一个方法
+     */
+    ['@babel/plugin-transform-runtime', { corejs: 3 }],
   ].filter(Boolean), // 过滤空值
 };

@@ -17,8 +17,8 @@ type GlobalContextType = initDataType & funcType;
 export const GlobalContext = createContext<GlobalContextType>({} as any);
 export const GlobalProvider = GlobalContext.Provider;
 
-const LEVEL = Symbol();
-const NAME = Symbol();
+const LEVEL = Symbol('LEVEL');
+const NAME = Symbol('NAME');
 
 interface actionType {
   type: typeof LEVEL | typeof NAME;
@@ -56,10 +56,7 @@ export const useStore = () => {
     },
   };
 
-  return {
-    ...state,
-    ...funcs,
-  };
+  return { ...state, ...funcs };
 };
 
 const StoreContent: FC<{ children: ReactNode }> = (props) => {
