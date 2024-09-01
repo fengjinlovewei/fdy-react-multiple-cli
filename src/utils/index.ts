@@ -1,6 +1,3 @@
-// @ts-ignore
-import { isMock } from '../../script/package-readonly.js';
-
 export const isDev = () => process.env.NODE_ENV === 'development';
 
 export const isProd = () => process.env.NODE_ENV === 'production';
@@ -29,10 +26,3 @@ export const getTime = function (time: number, bool: boolean = true) {
     }, time);
   });
 };
-
-export async function enableMocking() {
-  if (isDev() && isMock) {
-    const { worker } = await import('@/api/mock/index.browser.mock');
-    return worker.start();
-  }
-}

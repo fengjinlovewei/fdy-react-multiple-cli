@@ -1,16 +1,11 @@
 const { isProd } = require('../common.js');
 
 const List = {
-  'utils/index.ts': [
-    [
-      "import('@/api/mock/index.browser.mock')",
-      '{ worker: { start: () => {} } }',
-    ],
-  ],
+  'api/mock/init.ts': 'export function enableMocking() {}',
 };
 
 module.exports = function (content, map, meta) {
-  // debugger;
+  debugger;
   // const options = this.getOptions();
   // console.log('loader1', content);
   // const filename = path.basename(this.resourcePath);
@@ -19,8 +14,12 @@ module.exports = function (content, map, meta) {
   if (isProd) {
     for (const [path, replaceArr] of Object.entries(List)) {
       if (this.resourcePath.endsWith(path)) {
-        for (const [key, value] of replaceArr) {
-          content = content.replaceAll(key, value);
+        if (typeof replaceArr === 'string') {
+          content = replaceArr;
+        } else {
+          for (const [key, value] of replaceArr) {
+            content = content.replaceAll(key, value);
+          }
         }
       }
     }

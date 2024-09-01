@@ -105,7 +105,12 @@ module.exports = {
          * 由于thread-loader不支持抽离css插件MiniCssExtractPlugin.loader,
          * 所以这里只配置了多进程解析js,开启多线程也是需要启动时间,大约600ms左右,所以适合规模比较大的项目。
          */
-        use: ['thread-loader', 'babel-loader', 'replace-code-loader'],
+        use: [
+          'thread-loader',
+          'babel-loader',
+          'replace-code-loader',
+          'replace-i18n-loader',
+        ],
       },
       {
         // 匹配到一个就不继续培培乐，顺序是从下到上

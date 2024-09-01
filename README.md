@@ -159,3 +159,7 @@ git commit -m 'feat: 这是一个新的需求'
    https://stackoverflow.com/questions/65896008/webpack-problem-generating-sourcemaps-only-generated-when-a-particular-plugin
 
 10. script-ext-html-webpack-plugin 已经不维护了，再说也不是费用不可，去掉了。
+
+11. vscode 的 debugger 现在不需要 --inspect-brk
+
+12. msw在初始page页面老是报错，原因尚且不明，所以最好使用无痕模式调试页面。

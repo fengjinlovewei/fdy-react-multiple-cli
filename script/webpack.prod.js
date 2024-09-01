@@ -17,7 +17,7 @@ module.exports = merge(baseConfig, {
   mode: 'production', // 生产模式,会开启tree-shaking和压缩代码,以及其他优化
   devtool: 'source-map',
   optimization: {
-    minimize: true, // 是否开启压缩，
+    minimize: false, // 是否开启压缩，
     // 注意：minimize 不设置为true，minimizer 也不生效
     minimizer: [
       // minimize 压缩不会压缩css，所以需要自己找包解决

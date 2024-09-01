@@ -5,6 +5,8 @@
 // import { LazyDemoCommon } from '@/lazyComponents/';
 // import { LazyDemo, LazyNone } from '@/pages/news/lazyComponents';
 
+import { Ds } from './cc';
+
 // const fn = () => {
 //   return uniqueId();
 // };
@@ -22,6 +24,8 @@ getValue();
 const arr = [1, 2, 3];
 const newArr = arr.includes(3);
 console.log(newArr);
+
+console.log(Ds);
 
 // function App() {
 //   return (

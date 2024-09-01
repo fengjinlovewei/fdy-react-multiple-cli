@@ -1,6 +1,7 @@
 {
   "book": {
     "title": "kingfisher",
-    "content": "Kingfishers like to stop on the reed by the water, a pair of small red claws tightly hold the reed."
+    "content": "Kingfishers like to stop on the reed by the water, a pair of small red claws tightly hold the reed.",
+    "tip": "You need to pay {{price}} yuan"
   }
 }

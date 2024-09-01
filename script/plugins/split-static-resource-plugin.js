@@ -82,7 +82,7 @@ class SplitStaticResourcePlugin {
               if (nameList.length <= 1) {
                 name = 'assets';
               }
-              debugger;
+              // debugger;
               const content = asset.source.source(); // <- standardized way of getting asset source
 
               if (
@@ -156,7 +156,7 @@ class SplitStaticResourcePlugin {
               // }
             }
 
-            debugger;
+            // debugger;
 
             // 删除与 staticName 名称相关的 asset 文件
             for (const asset in compilation.assets) {

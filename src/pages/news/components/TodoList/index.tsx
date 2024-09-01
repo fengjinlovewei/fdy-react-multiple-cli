@@ -42,10 +42,21 @@ function App() {
     setTodos(newTodos);
   };
 
+  const price = Math.ceil(Math.random() * 100);
+
   return (
     <div className={styles.app}>
-      <div>{t('book.title')}</div>
-      <div>{t('book.content')}</div>
+      <div>
+        <div>{t('您需要要支付 {{price}} 元', { price, _price: 64 })}</div>
+        <div>{t('翠鸟')}</div>
+        <div>
+          {t('翠鸟喜欢停在水边的苇秆上，一双红色的小爪子紧紧地抓住苇秆。')}
+        </div>
+        asdasd
+        <div>{t('要支付 {{price}} 元', { price, _price: 64 })}</div>
+        <div>{t('小猪')}</div>
+        <div>{t('小猪骑在猴子的身上不断瞎摸')}</div>asdasd
+      </div>
       <button onClick={changeLanguage}>{i18n.language}</button>
       <div className={styles['todo-list']}>
         {todos.map((todo, index) => (
