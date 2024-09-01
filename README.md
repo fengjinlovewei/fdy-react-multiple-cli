@@ -154,3 +154,8 @@ git commit -m 'feat: 这是一个新的需求'
    所以，我觉得目前使用方案一更好一点。
 
 8. 使用 npm run open 时要注意清除缓存， http-server -c-1，可以做到。
+
+9. 插件生成新的代码时，sourcemap文件不能生成了，原因在这
+   https://stackoverflow.com/questions/65896008/webpack-problem-generating-sourcemaps-only-generated-when-a-particular-plugin
+
+10. script-ext-html-webpack-plugin 已经不维护了，再说也不是费用不可，去掉了。

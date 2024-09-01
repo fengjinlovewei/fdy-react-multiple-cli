@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import TodoItem from './TodoItem';
 import { TodoForm } from './TodoForm';
 import { toggleOneTodo } from './toggleOneTodo';
 import * as styles from './index.module.less';
 
 function App() {
+  const { t, i18n } = useTranslation();
   const [todos, setTodos] = useState<TodoType[]>([
     {
       text: 'Learn about',
@@ -19,6 +21,10 @@ function App() {
       isCompleted: false,
     },
   ]);
+
+  const changeLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'zh_CN' : 'en');
+  };
 
   const addTodo = (text: string) => {
     const newTodos = [...todos, { text }];
@@ -38,6 +44,9 @@ function App() {
 
   return (
     <div className={styles.app}>
+      <div>{t('book.title')}</div>
+      <div>{t('book.content')}</div>
+      <button onClick={changeLanguage}>{i18n.language}</button>
       <div className={styles['todo-list']}>
         {todos.map((todo, index) => (
           <TodoItem

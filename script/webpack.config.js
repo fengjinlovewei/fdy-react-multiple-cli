@@ -249,8 +249,10 @@ module.exports = {
   },
   optimization: {
     // 添加动态的runtime文件，可以配合ScriptExtHtmlWebpackPlugin使用
+    // 由于 ScriptExtHtmlWebpackPlugin 不再维护，还是放弃使用了
+    // entrypoint.name 都是**/index的模式，所以要把/index排除掉
     runtimeChunk: {
-      name: (entrypoint) => `runtime~${entrypoint.name}`,
+      name: (entrypoint) => `${entrypoint.name.replace('/index', '')}/runtime`,
     },
     splitChunks: {
       cacheGroups: {

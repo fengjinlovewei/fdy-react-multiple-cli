@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+// import { useTranslation } from 'react-i18next';
+
 import './App.less';
 
 import TestClass from '@/pages/news/components/TestClass';
@@ -17,6 +19,7 @@ import uniqueId from 'lodash/uniqueId';
 
 // 哈哈哈
 function App() {
+  // const { t } = useTranslation();
   const [lazyShow, setLazyShow] = useState(false);
   const [text, setText] = useState('');
   const [userList, setUserList] = useState<UserType[]>([]);

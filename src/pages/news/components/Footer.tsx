@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import LazyLoad from 'react-lazyload';
+import { useTranslation } from 'react-i18next';
 
 import * as styles from './Footer.module.less';
 
@@ -15,10 +16,13 @@ import data from '@/assets/images/data.jpeg';
 
 const Footer = () => {
   const { level, name, setName, setLevel } = useContext(GlobalContext)!;
+  const { t } = useTranslation();
 
   return (
     <>
       <div className={styles.footer}>
+        <div>{t('book.title')}</div>
+        <div>{t('book.content')}</div>
         <div className={styles.test}>footer </div>
         <div>{level}</div>
         <div>{name}</div>

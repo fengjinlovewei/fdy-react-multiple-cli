@@ -11,14 +11,13 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { PurgeCSSPlugin } = require('purgecss-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-
 const WebpackBar = require('webpackbar');
 
 module.exports = merge(baseConfig, {
   mode: 'production', // 生产模式,会开启tree-shaking和压缩代码,以及其他优化
+  devtool: 'source-map',
   optimization: {
-    minimize: false, // 是否开启压缩，
+    minimize: true, // 是否开启压缩，
     // 注意：minimize 不设置为true，minimizer 也不生效
     minimizer: [
       // minimize 压缩不会压缩css，所以需要自己找包解决
@@ -37,9 +36,10 @@ module.exports = merge(baseConfig, {
     ],
   },
   plugins: [
-    new ScriptExtHtmlWebpackPlugin({
-      inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
-    }),
+    // 不维护了这个插件，不使用了
+    // new ScriptExtHtmlWebpackPlugin({
+    //   inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
+    // }),
     new WebpackBar({
       // color: '#85d', // 默认green，进度条颜色支持HEX
       basic: false, // 默认true，启用一个简单的日志报告器

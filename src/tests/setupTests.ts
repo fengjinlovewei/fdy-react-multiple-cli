@@ -5,10 +5,13 @@
 
 import '@testing-library/jest-dom';
 
+import i18n from '@/i18n';
+
 import { server } from '@/api/mock/index.node.mock';
 
 beforeAll(() => {
   server.listen();
+  i18n.init();
 });
 
 afterEach(() => {

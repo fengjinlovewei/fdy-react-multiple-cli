@@ -4,6 +4,7 @@ import App from './App';
 import { initTheme } from '@/styles/theme';
 import { enableMocking } from '@/utils';
 import StoreContent from './store';
+import '@/i18n';
 import '@/styles/reset.css';
 import 'amfe-flexible/index.js';
 

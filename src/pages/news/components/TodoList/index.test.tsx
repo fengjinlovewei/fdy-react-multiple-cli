@@ -3,8 +3,12 @@ import TodoList from './index';
 import userEvent from '@testing-library/user-event';
 
 describe('TodoList', () => {
-  it('TodoList-item', () => {
+  it.only('TodoList-item', () => {
     render(<TodoList></TodoList>);
+    //const { container } = render(<TodoList></TodoList>);
+    // console.log(container.innerHTML);
+    // 快照暂时还是不用了
+    // expect(container).toMatchSnapshot();
 
     expect(screen.getAllByTestId('todo-item')).toHaveLength(3);
   });

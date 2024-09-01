@@ -14,7 +14,7 @@ class SplitStaticResourcePlugin {
         compilation.hooks.processAssets.tap(
           {
             name: 'SplitStaticResourcePlugin',
-            stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
+            stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COUNT,
             // stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
             additionalAssets: true,
           },
@@ -57,14 +57,23 @@ class SplitStaticResourcePlugin {
              * news/images/data2.35f297be.webp
              */
             // debugger;
+
+            /**
+             * 插件生成新的代码时，sourcemap文件不能生成了，原因在这
+             * https://stackoverflow.com/questions/65896008/webpack-problem-generating-sourcemaps-only-generated-when-a-particular-plugin
+             */
+
+            const { devtool } = compiler.options;
+
             for (let item in assets) {
               // console.log(compiler);
               const asset = compilation.getAsset(item); // <- standardized version of asset object
               const nameList = asset.name.split('/');
+
               let name = nameList[0];
-              if (name === 'none') {
-                debugger;
-              }
+              // if (name === 'none') {
+              //   debugger;
+              // }
               // length=1，说明这个chunk没有目录名称，比如分离异步包时，没有**/**(**/**.b6131d87.chunk.js)这种命名方式，
               // 只是写了一个名字**(**.b6131d87.chunk.js)或者什么也没写(213.b6131d87.chunk.js)，
               // 会被打包到根目录，那么这时需要把这些包里的 image 放到 根目录的 assets 目录里
@@ -73,15 +82,25 @@ class SplitStaticResourcePlugin {
               if (nameList.length <= 1) {
                 name = 'assets';
               }
+              debugger;
               const content = asset.source.source(); // <- standardized way of getting asset source
-              if (typeof content === 'string') {
+
+              if (
+                typeof content === 'string' &&
+                content.indexOf(staticName) > -1
+              ) {
                 // standardized way of updating asset source
                 const newContent = content.replaceAll(staticName, name);
 
-                compilation.updateAsset(
-                  item,
-                  new sources.RawSource(newContent),
-                );
+                const { map } = asset.source.sourceAndMap();
+
+                const updateData = devtool
+                  ? // for devtool we have to pass map file but this the original one
+                    // it would be wrong since you have already changed the content
+                    new sources.SourceMapSource(newContent, asset.name, map)
+                  : new sources.RawSource(newContent);
+
+                compilation.updateAsset(item, updateData);
               }
             }
           },
@@ -91,7 +110,8 @@ class SplitStaticResourcePlugin {
         compilation.hooks.processAssets.tap(
           {
             name: 'SplitStaticResourcePlugin',
-            stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE,
+            stage: compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
+            // PROCESS_ASSETS_STAGE_OPTIMIZE_INLINE
             additionalAssets: true,
           },
           (assets) => {
