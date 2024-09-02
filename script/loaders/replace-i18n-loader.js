@@ -4,6 +4,11 @@ const generate = require('@babel/generator').default;
 const types = require('@babel/types');
 const template = require('@babel/template').default;
 
+/**
+ * https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#%E6%A3%80%E6%9F%A5%E8%B7%AF%E5%BE%84path%E7%B1%BB%E5%9E%8B
+ * babel手册
+ */
+
 const zh_CN_json = require('../../src/i18n/locales/zh_CN.json');
 
 const getPathMap = (object) => {
@@ -57,6 +62,8 @@ function run(content) {
           path.node.arguments[0].value = pathMap[value];
 
           if (obj && types.isObjectExpression(obj)) {
+            // <div>{t('要支付 {{price}} 元', { price, _price: 64 })}</div>
+            // 删除掉测试变量，比如_price
             obj.properties = obj.properties.filter((item) => {
               return item.key.name.indexOf('_') !== 0;
             });
@@ -64,6 +71,9 @@ function run(content) {
           return;
         }
 
+        // <div>{t('要支付 {{price}} 元', { price, _price: 64 })}</div>
+        // 当没有匹配到 '要支付 {{price}} 元' 时，将会用 _price 测试数据进行替换
+        // 显示：'要支付 64 元'，并且当前字符是红色文字，表示没有对应的多语言
         if (obj && types.isObjectExpression(obj)) {
           const objData = obj.properties.reduce((per, cur) => {
             if (cur.key.name.indexOf('_') === 0) {
@@ -88,6 +98,8 @@ function run(content) {
         );
 
         path.replaceWith(ast);
+        // 当前节点已经被替换了，所以旧的节点的子节点没必要再遍历了
+        path.skip();
       }
     },
   });

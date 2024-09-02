@@ -86,7 +86,6 @@ local_data/*
 !local_data/.gitkeep
 
 
-demo.js
-demo.html
+demo*
 package-readonly.json
 stats.json

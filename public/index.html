@@ -10,7 +10,7 @@
         margin: 0;
         padding: 0;
       }
-      body{
+      body {
         background: #f9f9f1;
       }
       .box {
@@ -21,7 +21,11 @@
         margin: 15px;
         align-items: center;
         appearance: none;
-        background-image: radial-gradient(100% 100% at 100% 0, #5adaff 0, #5468ff 100%);
+        background-image: radial-gradient(
+          100% 100% at 100% 0,
+          #5adaff 0,
+          #5468ff 100%
+        );
         border: 0;
         border-radius: 6px;
         box-shadow:
@@ -74,16 +78,29 @@
         box-shadow: #3c4fe0 0 3px 7px inset;
         transform: translateY(2px);
       }
+      .disabled{
+        background-image: radial-gradient(
+          100% 100% at 100% 0,
+          #6b6f71 0,
+          #69696e 100%
+        );
+        pointer-events: none;
+      }
 
       /* 原文链接：https://blog.csdn.net/qq_43592352/article/details/128636316 */
     </style>
   </head>
   <body>
     <div class="box">
-      <% for (var page in htmlWebpackPlugin.options.packages) { %>
-      <a class="button-29" href="<%= htmlWebpackPlugin.options.packages[page] %>/index.html"
-        ><%= htmlWebpackPlugin.options.packages[page] %></a
+      <% var list = htmlWebpackPlugin.options.packagesData %>
+      <% for (var page of list) { %>
+      <a
+        href="<%= page.name %>/index.html"
+        target="_blank"
+        <%= page.show ?  'class="button-29"' : 'class="button-29 disabled"' %>
       >
+        <%= page.name %>
+      </a>
       <% } %>
     </div>
   </body>

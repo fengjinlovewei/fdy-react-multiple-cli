@@ -5,7 +5,7 @@ const List = {
 };
 
 module.exports = function (content, map, meta) {
-  debugger;
+  // debugger;
   // const options = this.getOptions();
   // console.log('loader1', content);
   // const filename = path.basename(this.resourcePath);

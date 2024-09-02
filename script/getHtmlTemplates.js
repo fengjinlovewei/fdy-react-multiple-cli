@@ -2,7 +2,13 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const { isServerHttp, getPackages, dll, getChunkNames } = require('./common');
+const {
+  isServerHttp,
+  pages,
+  getPackages,
+  dll,
+  getChunkNames,
+} = require('./common');
 
 const packages = getPackages();
 
@@ -76,6 +82,17 @@ const getHtmlWebpackPlugin = (name) => {
 
 const htmlTemplates = packages.map((name) => getHtmlWebpackPlugin(name));
 
+const packagesData = pages.map((name) => {
+  return {
+    name,
+    show: packages.includes(name),
+  };
+});
+
+packagesData.sort((a, b) => b.show - a.show);
+
+console.log(packagesData);
+
 // 注入测试主页面
 isServerHttp &&
   htmlTemplates.push(
@@ -92,7 +109,7 @@ isServerHttp &&
             files: assets,
             options: {
               ...options,
-              packages,
+              packagesData,
             },
           },
         };

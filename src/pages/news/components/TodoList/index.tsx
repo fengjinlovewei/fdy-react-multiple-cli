@@ -55,7 +55,7 @@ function App() {
         asdasd
         <div>{t('要支付 {{price}} 元', { price, _price: 64 })}</div>
         <div>{t('小猪')}</div>
-        <div>{t('小猪骑在猴子的身上不断瞎摸')}</div>asdasd
+        <div>{t('小猪骑在猴子的身上不断打人')}</div>asdasd
       </div>
       <button onClick={changeLanguage}>{i18n.language}</button>
       <div className={styles['todo-list']}>
