@@ -9,13 +9,19 @@ const template = require('@babel/template').default;
  * babel手册
  */
 
-const zh_CN_json = require('../../src/i18n/locales/zh_CN.json');
+let pathOrigin = null;
+let pathMap = null;
 
 const getPathMap = (object) => {
-  const pathOrigin = {};
-  const pathMap = {};
+  if (pathOrigin) return;
+
+  pathOrigin = {};
+  pathMap = {};
+
   const is = (o) => typeof o === 'object' && o !== null;
-  if (!is(object)) return { pathOrigin, pathMap };
+
+  if (!is(object)) return;
+
   const flat = (obj, path) => {
     for (const [key, value] of Object.entries(obj)) {
       let newPath = path ? path + '.' + key : key;
@@ -28,11 +34,9 @@ const getPathMap = (object) => {
       }
     }
   };
-  flat(object);
-  return { pathOrigin, pathMap };
-};
 
-const { pathOrigin, pathMap } = getPathMap(zh_CN_json);
+  flat(object);
+};
 
 function run(content) {
   const ast = parser.parse(content, {
@@ -84,8 +88,6 @@ function run(content) {
 
           value = value.replace(/\{\{((?:.|\n)+?)\}\}/g, (...arg) => {
             const key = arg[1];
-
-            console.log(arg);
             return objData[`_${key}`];
           });
         }
@@ -110,5 +112,13 @@ function run(content) {
 }
 
 module.exports = function (content, map, meta) {
+  const { languageJson } = this.getOptions();
+
+  if (!languageJson) {
+    return content;
+  }
+
+  getPathMap(languageJson);
+
   return run(content);
 };

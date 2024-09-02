@@ -8,6 +8,8 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const htmlTemplates = require('./getHtmlTemplates');
 const entryCacheGroups = require('./getEntryCacheGroups');
 
+const zh_CN_json = require('../src/i18n/locales/zh_CN.json');
+
 const {
   isDev,
   staticName,
@@ -109,7 +111,10 @@ module.exports = {
           'thread-loader',
           'babel-loader',
           'replace-code-loader',
-          'replace-i18n-loader',
+          {
+            loader: 'replace-i18n-loader',
+            options: { languageJson: zh_CN_json },
+          },
         ],
       },
       {
