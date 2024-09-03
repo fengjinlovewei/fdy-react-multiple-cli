@@ -1,7 +1,7 @@
 const { isProd } = require('../common.js');
 
 const List = {
-  'api/mock/init.ts': 'export function enableMocking() {}',
+  'api/mock/init.ts': 'export async function enableMocking() {}',
 };
 
 module.exports = function (content, map, meta) {

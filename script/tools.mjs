@@ -33,7 +33,8 @@ function writeJson(packages, isMock) {
 
 if (PACKAGE) {
   // pkg写入文件
-  writeJson(PACKAGE.split(','), false);
+  const packages = PACKAGE === 'all' ? [...pages] : PACKAGE.split(',');
+  writeJson(packages, false);
 } else {
   tools();
 }
