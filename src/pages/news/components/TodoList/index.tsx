@@ -52,10 +52,11 @@ function App() {
         <div>
           {t('翠鸟喜欢停在水边的苇秆上，一双红色的小爪子紧紧地抓住苇秆。')}
         </div>
-        asdasd
+        ————————————————————————————————
         <div>{t('要支付 {{price}} 元', { price, _price: 64 })}</div>
         <div>{t('小猪')}</div>
-        <div>{t('小猪骑在猴子的身上不断打人')}</div>asdasd
+        <div>{t('小猪骑在猴子的身上不断打人')}</div>
+        ————————————————————————————————
       </div>
       <button onClick={changeLanguage}>{i18n.language}</button>
       <div className={styles['todo-list']}>

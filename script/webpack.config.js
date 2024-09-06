@@ -113,7 +113,13 @@ module.exports = {
           'replace-code-loader',
           {
             loader: 'replace-i18n-loader',
-            options: { languageJson: zh_CN_json },
+            options: {
+              languageJson: zh_CN_json,
+              element: {
+                content: `<span style={{color: 'red'}}>{{ value}}</span>`,
+                contentType: 'jsx',
+              },
+            },
           },
         ],
       },
