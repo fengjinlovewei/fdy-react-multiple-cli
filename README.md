@@ -165,3 +165,26 @@ git commit -m 'feat: 这是一个新的需求'
 12. msw在初始page页面老是报错，原因尚且不明，所以最好使用无痕模式调试页面。
 
 13. webpack 的 loader 的 option 不能传递函数
+
+14. webpack.DefinePlugin：process.env.NODE_ENV 可以在代码中直接使用，但是其他的环境变量必须手动定义
+    并且这个插件，new 多个实例的时候，前面的new定义过的key，后面的new即便定义了相同的key也不会覆盖！
+15. window形同上的一些问题：
+    15-1. window 需要 在安装完包后 手动执行 pnpm rrepare
+    15-2. jest的部分选项在window不支持
+
+```javascript
+// window中，testMatch 不支持 <rootDir>/ 这个写法，匹配不出来
+// testMatch: [
+//   '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
+//   '<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)',
+// ],
+testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'];
+```
+
+16. docker 问题
+    16-1. dockerfile 中的关键字都必须大写，不然window报错，比如我之前使用as就报错，换成AS就好了。
+    16-2. 还有 ENV要用=赋值，不要用空格
+    错误写法：ENV TZ Asia/Shanghai
+    正确写法：ENV TZ=Asia/Shanghai
+    16-3. RUN env PACKAGE=all pnpm build 在window老是报错，有人说重启docker就好了，并没有。
+    换成这个就可以了，真是奇怪 RUN /bin/sh -c env PACKAGE=all pnpm build

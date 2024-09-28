@@ -173,10 +173,12 @@ const config = {
   // testLocationInResults: false,
 
   // 什么样的文件会被 jest 执行测试
-  testMatch: [
-    '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
-    '<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)',
-  ],
+  // window中，testMatch 不支持 <rootDir>/ 这个写法，匹配不出来
+  // testMatch: [
+  //   '<rootDir>/src/**/__tests__/**/*.[jt]s?(x)',
+  //   '<rootDir>/src/**/?(*.)+(spec|test).[tj]s?(x)',
+  // ],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [

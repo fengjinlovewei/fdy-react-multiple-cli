@@ -309,9 +309,10 @@ module.exports = {
 
     new SplitStaticResourcePlugin(),
 
-    //  现在不需要这个插件，就可以直接使用了
-    // new webpack.DefinePlugin({
-    //   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    // }),
+    // process.env.NODE_ENV 可以在代码中直接使用，但是其他的环境变量必须手动定义
+    // 并且这个插件，new 多个实例的时候，前面的new定义过的key，后面的new即便定义了相同的key也不会覆盖！
+    new webpack.DefinePlugin({
+      'process.env.PATH': JSON.stringify(process.env.PATH),
+    }),
   ],
 };

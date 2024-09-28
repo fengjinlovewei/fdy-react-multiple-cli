@@ -16,6 +16,8 @@ import { Ds } from './cc';
 // async function haha(params) {}
 
 async function getValue() {
+  console.log(process.env.PATH);
+  console.log(process.env.NODE_ENV);
   return await 555;
 }
 
