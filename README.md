@@ -168,8 +168,9 @@ git commit -m 'feat: 这是一个新的需求'
 
 14. webpack.DefinePlugin：process.env.NODE_ENV 可以在代码中直接使用，但是其他的环境变量必须手动定义
     并且这个插件，new 多个实例的时候，前面的new定义过的key，后面的new即便定义了相同的key也不会覆盖！
-15. window形同上的一些问题：
-    15-1. window 需要 在安装完包后 手动执行 pnpm rrepare
+
+15. win系统上的一些问题：
+    15-1. windows 需要 在安装完包后 手动执行 pnpm rrepare
     15-2. jest的部分选项在window不支持
 
 ```javascript

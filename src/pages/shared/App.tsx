@@ -31,6 +31,7 @@ function App() {
   return (
     <>
       <div className='box'>
+        <img src='https://fengjinlovewei.com/aaa.png' alt='' />
         <div className='theme-title' onClick={setDark}>
           我是主题颜色哈哈
         </div>

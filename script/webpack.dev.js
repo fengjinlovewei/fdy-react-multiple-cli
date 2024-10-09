@@ -4,6 +4,8 @@ const baseConfig = require('./webpack.config.js');
 
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
+const WebpackBar = require('webpackbar');
+
 // 合并公共配置,并添加开发环境配置
 module.exports = merge(baseConfig, {
   mode: 'development', // 开发模式,打包更加快速,省了代码优化步骤
@@ -17,6 +19,12 @@ module.exports = merge(baseConfig, {
     open: true,
   },
   plugins: [
+    new WebpackBar({
+      name: 'development',
+      // color: '#85d', // 默认green，进度条颜色支持HEX
+      basic: true, // 默认true，启用一个简单的日志报告器
+      profile: false, // 默认false，启用探查器。
+    }),
     /**
      * 
      *热更新上面已经在devServer中配置hot为true, 在webpack4中,还需要在插件中添加了HotModuleReplacementPlugin,

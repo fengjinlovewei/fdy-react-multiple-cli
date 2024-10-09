@@ -1,5 +1,5 @@
 const path = require('path');
-
+const urlRegex = require('url-regex');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const {
@@ -11,6 +11,47 @@ const {
 } = require('./common');
 
 const packages = getPackages();
+
+function getLinkData(compilation, indexChunkName) {
+  const urlPattern = /(https?:\/\/[^/]*)/i;
+
+  const chunks = compilation.entrypoints.get(indexChunkName).chunks;
+
+  const fileList = [];
+
+  const cndList = new Set();
+
+  for (const chunk of chunks) {
+    fileList.push(...chunk.auxiliaryFiles);
+    // modules的第三方的包就不抽离dns了，因为东西实在太多了，好多都是报错处理的链接
+    if (chunk.name !== indexChunkName) continue;
+
+    for (const file of chunk.files) {
+      if (/\.(css|js)$/.test(file)) {
+        const asset = compilation.getAsset(file);
+        if (!asset) return;
+        const content = asset.source.source();
+        if (typeof content === 'string') {
+          const urls = content.match(urlRegex({ strict: true }));
+
+          if (urls) {
+            urls.forEach((url) => {
+              const match = url.match(urlPattern);
+              if (match && match[1]) {
+                cndList.add(match[1]);
+              }
+            });
+          }
+        }
+      }
+    }
+  }
+
+  return {
+    fileList,
+    cndList: [...cndList],
+  };
+}
 
 // console.log('packages', packages);
 
@@ -26,21 +67,16 @@ const getHtmlWebpackPlugin = (name) => {
     inject: true, // 自动注入静态资源
     // https://github.com/jantimon/html-webpack-plugin/blob/main/examples/template-parameters/webpack.config.js
     templateParameters: (compilation, assets, assetTags, options) => {
-      const chunks = compilation.entrypoints.get(indexChunkName).chunks;
-
-      // debugger;
-      // console.log(indexChunkName);
-      // console.log(compilation, assets, assetTags, options);
-
-      let fileList = [];
-
-      for (const chunk of chunks) {
-        for (const auxiliaryFile of chunk.auxiliaryFiles) {
-          fileList.push(auxiliaryFile);
-        }
-      }
+      let { fileList, cndList } = getLinkData(compilation, indexChunkName);
 
       fileList = fileList.map((item) => path.join(assets.publicPath, item));
+
+      const cdnLinks = cndList.map((item) => {
+        return {
+          rel: 'dns-prefetch',
+          href: item,
+        };
+      });
 
       const preloadLinks = fileList
         .filter((item) => item.indexOf('.preload.') > -1)
@@ -70,8 +106,7 @@ const getHtmlWebpackPlugin = (name) => {
           files: assets,
           options: {
             ...options,
-            preloadLinks,
-            prefetchLinks,
+            metaList: [...cdnLinks, ...prefetchLinks, ...preloadLinks],
             dllPaths: [dll.core.jsPath],
           },
         },

@@ -30,7 +30,7 @@ const Footer = () => {
         <button onClick={() => setName('张三')}>setName</button>
         <div className='title'>title</div>
         <LazyLoad height={200} offset={100} once>
-          <img src={f1} alt='' />
+          <img src={'https://fengjinlovewei.com/aaa.png'} alt='' />
         </LazyLoad>
         <LazyLoad height={200} offset={100} once>
           <img src={data} alt='' />

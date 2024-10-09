@@ -17,7 +17,7 @@ module.exports = merge(baseConfig, {
   mode: 'production', // 生产模式,会开启tree-shaking和压缩代码,以及其他优化
   devtool: 'source-map',
   optimization: {
-    minimize: false, // 是否开启压缩，
+    minimize: true, // 是否开启压缩，
     // 注意：minimize 不设置为true，minimizer 也不生效
     minimizer: [
       // minimize 压缩不会压缩css，所以需要自己找包解决
@@ -29,7 +29,11 @@ module.exports = merge(baseConfig, {
         extractComments: true, //是否将注释剥离到单独的文件中,默认值： true
         terserOptions: {
           compress: {
-            // pure_funcs: ['console.log'], // 删除console.log
+            drop_debugger: true, //移除自动断点功能；
+            pure_funcs: ['console.log'], // 删除console.log
+          },
+          format: {
+            comments: false, //删除注释
           },
         },
       }),
@@ -41,8 +45,9 @@ module.exports = merge(baseConfig, {
     //   inline: /runtime~.+.js$/, //正则匹配runtime文件名，然后打入html文件中。必须在HtmlWebpackPlugin之后使用。
     // }),
     new WebpackBar({
+      name: 'production',
       // color: '#85d', // 默认green，进度条颜色支持HEX
-      basic: false, // 默认true，启用一个简单的日志报告器
+      basic: true, // 默认true，启用一个简单的日志报告器
       profile: false, // 默认false，启用探查器。
     }),
     // 抽离css插件

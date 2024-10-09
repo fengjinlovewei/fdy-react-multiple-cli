@@ -5,17 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <% var {title, preloadLinks, prefetchLinks, dllPaths} = htmlWebpackPlugin.options %>
+    <% var {title, metaList, preloadLinks, prefetchLinks, cdnLinks, dllPaths} = htmlWebpackPlugin.options %>
 
     <title><%= title %></title>
 
-    <% for (var preloadLink of preloadLinks) { %>
-    <link <% for (key in preloadLink) { %> <%= key %>="<%= preloadLink[key] %>" <% } %> />
+
+    <% for (var item of metaList) { %>
+    <link <% for (key in item) { %> <%= key %>="<%= item[key] %>" <% } %> />
     <% } %>
 
-    <% for (var prefetchLink of prefetchLinks) { %>
-    <link <% for (key in prefetchLink) { %> <%= key %>="<%= prefetchLink[key] %>"<% } %> />
-    <% } %>
 
     <% for (var dllPath of dllPaths) { %>
         <script defer src="<%= dllPath %>"></script>

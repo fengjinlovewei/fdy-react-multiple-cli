@@ -116,7 +116,7 @@ function run(content, newOption = {}) {
       }
 
       // 走到这，说明多语言没有定义当前节点，需要使用测试数据
-      debugger;
+      // debugger;
       value = element.content.replace(reg, (...arg) => {
         const [origin, key] = arg;
         return key.trim() === 'value' ? value : origin;

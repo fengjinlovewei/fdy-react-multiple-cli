@@ -1,5 +1,3 @@
-//const inquirer = require('inquirer');
-
 import path from 'path';
 import fs from 'fs';
 import inquirer from 'inquirer';
@@ -8,7 +6,6 @@ import { dirname } from 'dirname-filename-esm';
 
 import { pages, getPackages, isDev } from './common.js';
 import packageReadonly from './package-readonly.js';
-// import server from '../src/api/mock/index.mock.mjs';
 
 const __dirname = dirname(import.meta);
 
