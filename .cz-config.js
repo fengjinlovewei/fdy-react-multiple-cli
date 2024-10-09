@@ -2,17 +2,26 @@
 module.exports = {
   types: [
     { value: 'feat', name: 'feat:       新增内容' },
-    { value: 'fix', name: 'fix:        修复一个Bug' },
-    { value: 'docs', name: 'docs:       变更的只有文档' },
+    { value: 'fix', name: 'fix:        修复Bug' },
+    {
+      value: 'docs',
+      name: 'docs:       修改文档，比如 README.md、CHANGELOG.md 等',
+    },
     { value: 'style', name: 'style:      空格, 分号, UI, CSS等格式修复' },
-    { value: 'refactor', name: '️refactor:   代码重构，注意和特性、修复区分开' },
+    {
+      value: 'refactor',
+      name: '️refactor:   重构代码（即改进代码结构，不增加新功能或修复bug）',
+    },
     { value: 'perf', name: '️️perf:       提升性能' },
     { value: 'test', name: 'test:       添加一个测试' },
     { value: 'build', name: 'build:      开发工具变动(构建、脚手架工具等)' },
-    { value: 'rollback', name: 'rollback:   代码回退' },
-    { value: 'addLog', name: 'addLog:     添加log' },
   ],
-  scopes: [{ name: 'css' }, { name: 'js,ts' }, { name: 'jsx,tsx' }, { name: 'node' }],
+  scopes: [
+    { name: 'css' },
+    { name: 'js,ts' },
+    { name: 'jsx,tsx' },
+    { name: 'node' },
+  ],
   // it needs to match the value for field type. Eg.: 'fix'
   /*  scopeOverrides: {
 	fix: [
